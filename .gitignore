@@ -3,4 +3,4 @@ obj/*
 *.o
 *~
 *.log
-blende/*.blend1
+blender/*.blend1
