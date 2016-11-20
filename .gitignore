@@ -1,0 +1,6 @@
+Mastermind
+obj/*
+*.o
+*~
+*.log
+blende/*.blend1
