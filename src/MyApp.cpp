@@ -23,10 +23,10 @@ int MyApp::start() {
   _sceneManager->setAmbientLight(Ogre::ColourValue(1, 1, 1));
 
   Ogre::Camera* cam = _sceneManager->createCamera("MainCamera");
-  cam->setPosition(Ogre::Vector3(0, 4, 7)); //obtenidas de las coordenadas de la camara en blender
+  cam->setPosition(Ogre::Vector3(0, 6, 2)); //obtenidas de las coordenadas de la camara en blender
   cam->lookAt(Ogre::Vector3(0, 0, 0)); //obtenido del eje vacío al que sigue la cámara en blender
-  cam->setNearClipDistance(5);
-  cam->setFarClipDistance(10000);
+  cam->setNearClipDistance(0.1);
+  cam->setFarClipDistance(1000);
 
   Ogre::Viewport* viewport = window->addViewport(cam);
   viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 0.0));
@@ -70,8 +70,14 @@ void MyApp::createScene() {
   Ogre::Entity* ent1 = _sceneManager->createEntity("Mastermind.mesh");
   Ogre::SceneNode* node1 = _sceneManager->createSceneNode("BoardNode");
   node1->attachObject(ent1);
-  node1->translate(0, 0, 0);
+  node1->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node1);
+
+  Ogre::Entity* ent3 = _sceneManager->createEntity("Ball_slew.mesh");
+  Ogre::SceneNode* node3 = _sceneManager->createSceneNode("SlewNode");
+  node3->attachObject(ent3);
+  node3->translate(1, 0, 0);
+  _sceneManager->getRootSceneNode()->addChild(node3);
 
   Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, -5);
   Ogre::MeshManager::getSingleton().createPlane("plane1",

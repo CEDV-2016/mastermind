@@ -1,52 +1,68 @@
-<scene formatVersion="1.0.1" previous_export_time="1479673695.1195965" export_time="1479673727.4519615" exported_by="pedroma" >
+<scene formatVersion="1.0.1" export_time="1479897751.4563076" previous_export_time="1479897596.95543" exported_by="pedroma" >
   <nodes >
-    <node name="Camera" >
-      <position y="7.000000" x="0.000000" z="-4.000000" />
-      <rotation qw="0.000000" qz="-0.256668" qx="0.000000" qy="0.966500" />
-      <scale y="1.000000" x="1.000000" z="1.000000" />
+    <node name="Ball_slew" >
+      <position z="-1.000000" x="-1.000000" y="0.000000" />
+      <rotation qx="0.000000" qy="0.000000" qz="-0.000000" qw="1.000000" />
+      <scale z="1.000000" x="1.000000" y="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <camera name="Camera" fov="0.5033799435163735" projectionType="perspective" >
-        <clipping nearPlaneDist="0.10000000149011612" far="100.0" near="0.10000000149011612" farPlaneDist="100.0" />
+      <entity friction_z="1.0" velocity_max="0.0" lock_rot_y="False" damping_rot="0.10000000149011612" name="Ball_slew" damping_trans="0.03999999910593033" actor="False" lock_trans_z="False" velocity_min="0.0" ghost="False" lock_rot_x="False" friction_y="1.0" friction_x="1.0" lock_rot_z="False" meshFile="Ball_slew.mesh" lock_trans_x="False" lock_trans_y="False" physics_type="STATIC" mass="1.0" mass_radius="1.0" anisotropic_friction="False" inertia_tensor="0.4000000059604645" />
+    </node>
+    <node name="Camera" >
+      <position z="-2.000000" x="0.000000" y="6.000000" />
+      <rotation qx="0.000000" qy="0.987088" qz="-0.160182" qw="0.000000" />
+      <scale z="0.999999" x="0.999999" y="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <camera projectionType="perspective" name="Camera" fov="0.6605947096585073" >
+        <clipping farPlaneDist="100.0" far="100.0" near="0.10000000149011612" nearPlaneDist="0.10000000149011612" />
       </camera>
     </node>
-    <node name="Masermind" >
-      <position y="0.000000" x="0.000000" z="-0.000000" />
-      <rotation qw="1.000000" qz="-0.000000" qx="0.000000" qy="0.000000" />
-      <scale y="1.000000" x="1.000000" z="1.000000" />
-      <game >
-        <sensors />
-        <actuators />
-      </game>
-      <entity lock_rot_x="False" friction_x="1.0" lock_trans_z="False" lock_trans_x="False" ghost="False" name="Mastermind" damping_rot="0.1589999943971634" mass_radius="1.0" lock_rot_y="False" friction_y="1.0" velocity_max="0.0" actor="False" damping_trans="0.02539999969303608" lock_trans_y="False" friction_z="1.0" mass="1.0" physics_type="STATIC" inertia_tensor="0.4000000059604645" velocity_min="0.0" meshFile="Mastermind.mesh" lock_rot_z="False" anisotropic_friction="False" />
-    </node>
     <node name="Lamp" >
-      <position y="7.000000" x="0.000000" z="-4.000000" />
-      <rotation qw="0.570947" qz="-0.272171" qx="0.169076" qy="0.755880" />
-      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <position z="-4.000000" x="0.000000" y="7.000000" />
+      <rotation qx="0.169076" qy="0.755880" qz="-0.272171" qw="0.570947" />
+      <scale z="1.000000" x="1.000000" y="1.000000" />
       <game >
         <sensors />
         <actuators />
       </game>
-      <light type="point" name="Lamp" shadow="true" powerScale="1.0" >
-        <position y="7.000000" x="0.000000" z="-4.000000" />
-        <lightAttenuation constant="1.0" linear="0.03333335240683057" range="5000" quadratic="0.0" />
-        <colourDiffuse b="1.0" g="1.0" r="1.0" />
-        <colourSpecular b="1.0" g="1.0" r="1.0" />
-        <colourShadow b="1.0" g="1.0" r="1.0" />
+      <light type="point" name="Lamp" powerScale="1.0" shadow="true" >
+        <position z="-4.000000" x="0.000000" y="7.000000" />
+        <lightAttenuation constant="1.0" range="5000" linear="0.03333335240683057" quadratic="0.0" />
+        <colourDiffuse r="1.0" g="1.0" b="1.0" />
+        <colourSpecular r="1.0" g="1.0" b="1.0" />
+        <colourShadow r="1.0" g="1.0" b="1.0" />
+      </light>
+    </node>
+    <node name="Lamp.001" >
+      <position z="-3.580700" x="-3.173375" y="7.000000" />
+      <rotation qx="0.169076" qy="0.755880" qz="-0.272171" qw="0.570947" />
+      <scale z="1.000000" x="1.000000" y="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <light type="point" name="Lamp.001" powerScale="1.0" shadow="true" >
+        <position z="-3.580700" x="-3.173375" y="7.000000" />
+        <lightAttenuation constant="1.0" range="5000" linear="0.03333335240683057" quadratic="0.0" />
+        <colourDiffuse r="1.0" g="1.0" b="1.0" />
+        <colourSpecular r="1.0" g="1.0" b="1.0" />
+        <colourShadow r="1.0" g="1.0" b="1.0" />
       </light>
     </node>
   </nodes>
   <externals >
     <item type="material" >
-      <file name="/home/pedroma/CEDV/Mastermind/media/Material.material" />
+      <file name="/home/pedroma/CEDV/Mastermind/media/Material.002.material" />
     </item>
   </externals>
   <environment >
-    <colourDiffuse b="0.05087608844041824" g="0.05087608844041824" r="0.05087608844041824" />
-    <colourBackground b="0.05087608844041824" g="0.05087608844041824" r="0.05087608844041824" />
-    <colourAmbient b="0.0" g="0.0" r="0.0" />
+    <colourBackground r="0.05087608844041824" g="0.05087608844041824" b="0.05087608844041824" />
+    <colourAmbient r="0.0" g="0.0" b="0.0" />
+    <colourDiffuse r="0.05087608844041824" g="0.05087608844041824" b="0.05087608844041824" />
   </environment>
 </scene>
