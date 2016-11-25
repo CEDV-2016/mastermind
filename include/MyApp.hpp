@@ -7,6 +7,7 @@ private:
   Ogre::SceneManager* _sceneManager;
   Ogre::Root* _root;
   MyFrameListener* _framelistener;
+  Ogre::OverlayManager* _overlayManager;
 
 public:
   MyApp();
@@ -14,4 +15,5 @@ public:
   int start();
   void loadResources();
   void createScene();
+  void createOverlay();
 };

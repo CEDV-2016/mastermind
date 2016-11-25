@@ -10,7 +10,7 @@ material Table
 
 			texture_unit
 			{
-				texture table.jpg
+				texture chess.jpg
 			}
 		}
 	}
