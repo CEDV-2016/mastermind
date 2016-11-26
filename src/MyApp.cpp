@@ -4,12 +4,14 @@ MyApp::MyApp() {
   _sceneManager = NULL;
   _framelistener = NULL;
   _overlayManager = NULL;
+  _sceneManager = NULL;
 }
 
 MyApp::~MyApp() {
   delete _root;
   delete _framelistener;
   delete _overlayManager;
+  delete _sceneManager;
 }
 
 int MyApp::start() {
@@ -21,7 +23,7 @@ int MyApp::start() {
   }
 
   Ogre::RenderWindow* window = _root->initialise(true, "Mastermind");
-  _sceneManager = _root->createSceneManager(Ogre::ST_GENERIC);
+  _sceneManager = _root->createSceneManager(Ogre::ST_INTERIOR);
   _sceneManager->setAmbientLight(Ogre::ColourValue(1, 1, 1));
   _sceneManager->addRenderQueueListener(new Ogre::OverlaySystem());
 
@@ -42,7 +44,7 @@ int MyApp::start() {
   createScene();
   createOverlay();
 
-  _framelistener = new MyFrameListener(window, cam, _overlayManager);
+  _framelistener = new MyFrameListener(window, cam, _overlayManager, _sceneManager);
   _root->addFrameListener(_framelistener);
 
   _root->startRendering();
@@ -62,8 +64,7 @@ void MyApp::loadResources() {
     for (i = settings->begin(); i != settings->end(); ++i) {
       typestr = i->first;
       datastr = i->second;
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation
-      (datastr, typestr, sectionstr);
+      Ogre::ResourceGroupManager::getSingleton().addResourceLocation(datastr, typestr, sectionstr);
     }
   }
   Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
@@ -79,17 +80,20 @@ void MyApp::createScene() {
 
   //Caja de bolas
   Ogre::Entity* ent_box_1 = _sceneManager->createEntity("Box.mesh");
-  Ogre::SceneNode* node_box_1 = _sceneManager->createSceneNode("BoxNode1");
+  Ogre::SceneNode* node_box_1 = _sceneManager->createSceneNode("BoxNode_Red");
   node_box_1->attachObject(ent_box_1);
   node_box_1->translate(1, 0, 1);
   _sceneManager->getRootSceneNode()->addChild(node_box_1);
 
   //Montón de bolas
-  Ogre::Entity* ent_slew_1 = _sceneManager->createEntity("Ball_slew.mesh");
-  Ogre::SceneNode* node_slew_1 = _sceneManager->createSceneNode("SlewNode1");
-  node_slew_1->attachObject(ent_slew_1);
-  node_slew_1->translate(1, 0, 1);
-  _sceneManager->getRootSceneNode()->addChild(node_slew_1);
+  Ogre::Entity* ent_slew_red = _sceneManager->createEntity("Ball_slew.mesh");
+  Ogre::MaterialPtr mPtr = ent_slew_red->getSubEntity(0)->getMaterial();
+  mPtr->setAmbient(Ogre::ColourValue(0.9, 0, 0));
+  mPtr.getPointer()->getTechnique(0)->getPass(0)->setDiffuse(0.4, 0.4, 0.4, 0);
+  Ogre::SceneNode* node_slew_red = _sceneManager->createSceneNode("SlewNode_Red");
+  node_slew_red->attachObject(ent_slew_red);
+  node_slew_red->translate(1, 0, 1);
+  _sceneManager->getRootSceneNode()->addChild(node_slew_red);
 
   //Suelo
   Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, 0);

@@ -12,9 +12,14 @@ private:
   Ogre::Camera* _camera;
   Ogre::OverlayManager* _overlayManager;
   Ogre::RenderWindow* _win;
+  Ogre::SceneManager* _sceneManager;
+  Ogre::RaySceneQuery *_raySceneQuery;
+  Ogre::SceneNode *_selectedNode;
+
+  Ogre::Ray setRayQuery(int posx, int posy);
 
 public:
-  MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::OverlayManager *om);
+  MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::OverlayManager *om, Ogre::SceneManager* sm);
   ~MyFrameListener();
   bool frameStarted(const Ogre::FrameEvent& evt);
 };
