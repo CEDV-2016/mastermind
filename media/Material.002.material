@@ -29,7 +29,7 @@ material Material.002
             scene_blend_op add
             shading gouraud
             transparent_sorting on
-            
+
         }
     }
 }
