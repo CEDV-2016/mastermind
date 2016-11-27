@@ -1,4 +1,5 @@
 #include "MyApp.hpp"
+#include "BallsFactory.hpp"
 
 MyApp::MyApp() {
   _sceneManager = NULL;
@@ -12,6 +13,7 @@ MyApp::~MyApp() {
   delete _framelistener;
   delete _overlayManager;
   delete _sceneManager;
+  delete _ballsFactory;
 }
 
 int MyApp::start() {
@@ -47,6 +49,7 @@ int MyApp::start() {
   _framelistener = new MyFrameListener(window, cam, _overlayManager, _sceneManager);
   _root->addFrameListener(_framelistener);
 
+
   _root->startRendering();
   return 0;
 }
@@ -71,6 +74,8 @@ void MyApp::loadResources() {
 }
 
 void MyApp::createScene() {
+  _ballsFactory = new BallsFactory(_sceneManager);
+
   //Mastermind
   Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind.mesh");
   Ogre::SceneNode* node_mastermind = _sceneManager->createSceneNode("Mastermind");
@@ -78,23 +83,12 @@ void MyApp::createScene() {
   node_mastermind->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
 
-  //Caja de bolas
-  Ogre::Entity* ent_box_1 = _sceneManager->createEntity("Box.mesh");
-  Ogre::SceneNode* node_box_1 = _sceneManager->createSceneNode("BoxNode_Red");
-  node_box_1->attachObject(ent_box_1);
-  node_box_1->translate(1, 0, 1);
-  _sceneManager->getRootSceneNode()->addChild(node_box_1);
-
-  //Montón de bolas
-  Ogre::Entity* ent_slew_red = _sceneManager->createEntity("Ball_slew.mesh");
-  ent_slew_red->setQueryFlags(RED);
-  Ogre::MaterialPtr mPtr = ent_slew_red->getSubEntity(0)->getMaterial();
-  mPtr->setAmbient(Ogre::ColourValue(0.9, 0, 0));
-  mPtr.getPointer()->getTechnique(0)->getPass(0)->setDiffuse(0.4, 0.4, 0.4, 0);
-  Ogre::SceneNode* node_slew_red = _sceneManager->createSceneNode("SlewNode_Red");
-  node_slew_red->attachObject(ent_slew_red);
-  node_slew_red->translate(1, 0, 1);
-  _sceneManager->getRootSceneNode()->addChild(node_slew_red);
+  _ballsFactory->createBoxAndBallSlew(RED,   1, 0, 1); //X Z -Y
+  _ballsFactory->createBoxAndBallSlew(BLUE,  1, 0, -0.5);
+  _ballsFactory->createBoxAndBallSlew(GREEN, 1, 0, -1);
+  _ballsFactory->createBoxAndBallSlew(PINK,  2, 0, 1);
+  _ballsFactory->createBoxAndBallSlew(WHITE, 2, 0, -0.5);
+  _ballsFactory->createBoxAndBallSlew(BLACK, 2, 0, -1);
 
   //Suelo
   Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, 0);

@@ -62,7 +62,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       _selectedNode = NULL;
     }
 
-    Ogre::Ray r = setRayQuery(posx, posy);
+    setRayQuery(posx, posy);
     Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
     Ogre::RaySceneQueryResult::iterator it;
     it = result.begin();
@@ -77,6 +77,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   // Overlay management
   Ogre::OverlayElement *oe;
   std::string flags, msg;
+  std::stringstream stream;
 
   oe = _overlayManager->getOverlayElement("fpsInfo");
   oe->setCaption(Ogre::StringConverter::toString(fps));
@@ -85,15 +86,16 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   if (_selectedNode != NULL) {
     flags = Ogre::StringConverter::toString(_selectedNode->getAttachedObject(0)->getQueryFlags());
     switch (atoi(flags.c_str())) {
-      case RED:   msg = "RED"; break;
-      case BLUE:  msg = "BLUE"; break;
+      case RED:   msg = "RED";   break;
+      case BLUE:  msg = "BLUE";  break;
       case GREEN: msg = "GREEN"; break;
-      case PINK:  msg = "PINK"; break;
+      case PINK:  msg = "PINK";  break;
       case WHITE: msg = "WHITE"; break;
       case BLACK: msg = "BLACK"; break;
-      default: msg = "NO COLOR"; break;
+      default:    msg = "NO COLOR"; break;
     }
-    oe->setCaption(msg);
+    stream << _selectedNode->getName() << " (Flags: " << msg << ")";
+    oe->setCaption(stream.str());
   }
   else {
     oe->setCaption("");
@@ -110,6 +112,6 @@ Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy) {
   Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
-  // _raySceneQuery->setQueryMask(Colors::RED);
+  // _raySceneQuery->setQueryMask(RED);
   return rayMouse;
 }

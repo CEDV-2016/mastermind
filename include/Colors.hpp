@@ -6,7 +6,3 @@
 #define PINK  1 << 3
 #define WHITE 1 << 4
 #define BLACK 1 << 5
-
-class Colors
-{
-};
