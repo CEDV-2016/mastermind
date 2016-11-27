@@ -87,6 +87,7 @@ void MyApp::createScene() {
 
   //Montón de bolas
   Ogre::Entity* ent_slew_red = _sceneManager->createEntity("Ball_slew.mesh");
+  ent_slew_red->setQueryFlags(RED);
   Ogre::MaterialPtr mPtr = ent_slew_red->getSubEntity(0)->getMaterial();
   mPtr->setAmbient(Ogre::ColourValue(0.9, 0, 0));
   mPtr.getPointer()->getTechnique(0)->getPass(0)->setDiffuse(0.4, 0.4, 0.4, 0);

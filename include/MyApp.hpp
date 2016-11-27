@@ -1,5 +1,8 @@
+#pragma once
+
 #include <Ogre.h>
 #include "MyFrameListener.hpp"
+#include "Colors.hpp"
 
 class MyApp {
 
