@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/FrameWindow" name="Init" >
+        <Property name="Area" value="{{0.2,0},{0.2,0},{0.4,300},{0.558333,189}}" />
+        <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+        <Window type="Vanilla/Button" name="NewGameButton" >
+            <Property name="Area" value="{{0.00106377,0},{-0.268011,0},{0.00106377,300},{-0.268011,50}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Nuevo Juego" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+        <Window type="Vanilla/Button" name="RankingButton" >
+            <Property name="Area" value="{{0,1},{0,-38},{0,301},{0,12}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Ranking" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+        <Window type="Vanilla/Button" name="CreditsButton" >
+            <Property name="Area" value="{{0,1},{0,38},{0,301},{0,89}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Créditos" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+        <Window type="Vanilla/Button" name="ExitButton" >
+            <Property name="Area" value="{{-0.00106377,0},{0.268011,0},{-0.00106377,300},{0.268011,50}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Salir" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+    </Window>
+</GUILayout>
