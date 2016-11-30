@@ -177,13 +177,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 }
 
 Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, int mask) {
+  Ogre::uint32 all_masks = RED | BLUE | GREEN | PINK | WHITE | BLACK | BOARD | GROUND | BOX;
   Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
-  if (mask != -1){
-    _raySceneQuery->setQueryMask(mask);
-  }  else {
-    _raySceneQuery->setQueryMask(RED | BLUE | GREEN | PINK | WHITE | BLACK | BOARD | GROUND | BOX);
-  }
+  _raySceneQuery->setQueryMask(mask == -1 ? all_masks : mask);
   return rayMouse;
 }
