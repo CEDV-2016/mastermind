@@ -46,7 +46,7 @@ int MyApp::start() {
   createScene();
   createOverlay();
 
-  _framelistener = new MyFrameListener(window, cam, _overlayManager, _sceneManager);
+  _framelistener = new MyFrameListener(window, cam, _overlayManager, _sceneManager, _ballsFactory);
   _root->addFrameListener(_framelistener);
 
 
@@ -78,36 +78,35 @@ void MyApp::createScene() {
 
   //Mastermind
   Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind.mesh");
+  ent_mastermind->setQueryFlags(BOARD);
   Ogre::SceneNode* node_mastermind = _sceneManager->createSceneNode("Mastermind");
   node_mastermind->attachObject(ent_mastermind);
   node_mastermind->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
 
+  //Cajas y bolas
   _ballsFactory->createBoxAndBallSlew(RED,   1, 0, 1); //X Z -Y
   _ballsFactory->createBoxAndBallSlew(BLUE,  1, 0, -0.5);
   _ballsFactory->createBoxAndBallSlew(GREEN, 1, 0, -1);
-  _ballsFactory->createBoxAndBallSlew(PINK,  2, 0, 1);
-  _ballsFactory->createBoxAndBallSlew(WHITE, 2, 0, -0.5);
+  _ballsFactory->createBoxAndBallSlew(WHITE, 2, 0, 1);
+  _ballsFactory->createBoxAndBallSlew(PINK,  2, 0, -0.5);
   _ballsFactory->createBoxAndBallSlew(BLACK, 2, 0, -1);
 
   //Suelo
-  Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, 0);
-  Ogre::MeshManager::getSingleton().createPlane("plane1",
-  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane1,
-  200, 200, 1, 1, true, 1, 20, 20, Ogre::Vector3::UNIT_Z);
+  Ogre::Entity* ent_ground = _sceneManager->createEntity("Ground.mesh");
+  ent_ground->setQueryFlags(GROUND);
+  Ogre::SceneNode* node_ground = _sceneManager->createSceneNode("Ground");
+  node_ground->attachObject(ent_ground);
+  _sceneManager->getRootSceneNode()->addChild(node_ground);
 
-  Ogre::SceneNode* node2 = _sceneManager->createSceneNode("table");
-  Ogre::Entity* tableEnt = _sceneManager->createEntity("planeEnt", "plane1");
-  tableEnt->setMaterialName("Table");
-  node2->attachObject(tableEnt);
-
+  //Luz
   _sceneManager->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
   Ogre::Light* light = _sceneManager->createLight("Light1");
   light->setType(Ogre::Light::LT_DIRECTIONAL);
   light->setDirection(Ogre::Vector3(1, -1, 0));
-  node2->attachObject(light);
-
-  _sceneManager->getRootSceneNode()->addChild(node2);
+  Ogre::SceneNode* node_light = _sceneManager->createSceneNode("LightNode");
+  node_light->attachObject(light);
+  _sceneManager->getRootSceneNode()->addChild(node_light);
 }
 
 void MyApp::createOverlay() {

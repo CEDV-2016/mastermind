@@ -3,4 +3,5 @@ obj/*
 *.o
 *~
 *.log
+mastermind.scene
 blender/*.blend1
