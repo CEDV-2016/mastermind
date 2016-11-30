@@ -30,7 +30,7 @@ OBJS := $(subst $(DIRSRC), $(DIROBJ), $(patsubst %.cpp, %.o, $(wildcard $(DIRSRC
 
 .PHONY: all clean
 
-all: $(EXEC)
+all: dir $(EXEC)
 	./$(EXEC)
 
 info:
@@ -52,7 +52,7 @@ clean:
 	$(RM) *.log $(EXEC) *~ $(DIROBJ)* $(DIRSRC)*~ $(DIRHEA)*~
 
 dir:
-	mkdir obj/
+	mkdir -p obj/
 
 edit:
 	atom .

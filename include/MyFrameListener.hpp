@@ -26,7 +26,7 @@ private:
   int _state;
   Ogre::SceneNode* _current_ball;
 
-  Ogre::Ray setRayQuery(int posx, int posy);
+  Ogre::Ray setRayQuery(int posx, int posy, int mask);
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::OverlayManager *om, Ogre::SceneManager* sm, BallsFactory* bf);

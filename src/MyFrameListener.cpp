@@ -75,7 +75,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         _selectedNode = NULL;
       }
 
-      setRayQuery(posx, posy);
+      setRayQuery(posx, posy, -1);
       Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
       Ogre::RaySceneQueryResult::iterator it;
       it = result.begin();
@@ -102,7 +102,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     */
     case MOVING_BALL:
 
-    Ogre::Ray r = setRayQuery(posx, posy);
+    Ogre::Ray r = setRayQuery(posx, posy, -1);
     Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
     Ogre::RaySceneQueryResult::iterator it;
     Ogre::Vector3 position;
@@ -115,8 +115,20 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       color = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
     }
 
-    //Como la bola está debajo del ratón no se puede pinchar en el tablero
-    // (siempre detecta que es bola). TODO probar con las queries y los flags
+    /**
+    * Como la bola está debajo del ratón no se puede pinchar en el tablero
+    * (solo detecta bola). Mediante queries le decimos que solo mire el tablero.
+    */
+
+    r = setRayQuery(posx, posy, BOARD);
+    result = _raySceneQuery->execute();
+    it = result.begin();
+
+    if (it != result.end()) {
+      color = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
+    }
+
+
     if (mbleft) {
       if (color == BOARD) {
         _current_ball->setPosition(position.x, position.y, position.z);
@@ -164,10 +176,14 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   return true;
 }
 
-Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy) {
+Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, int mask) {
   Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
-  // _raySceneQuery->setQueryMask(RED);
+  if (mask != -1){
+    _raySceneQuery->setQueryMask(mask);
+  }  else {
+    _raySceneQuery->setQueryMask(RED | BLUE | GREEN | PINK | WHITE | BLACK | BOARD | GROUND | BOX);
+  }
   return rayMouse;
 }
