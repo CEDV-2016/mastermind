@@ -44,7 +44,6 @@ int MyApp::start() {
 
   loadResources();
   createScene();
-  createOverlay();
 
   _framelistener = new MyFrameListener(window, cam, _overlayManager, _sceneManager);
   _root->addFrameListener(_framelistener);
@@ -112,12 +111,6 @@ void MyApp::createScene() {
   _sceneManager->getRootSceneNode()->addChild(node2);
 }
 
-void MyApp::createOverlay() {
-  _overlayManager = Ogre::OverlayManager::getSingletonPtr();
-  Ogre::Overlay *overlay = _overlayManager->getByName("Info");
-  overlay->show();
-}
-
 void MyApp::createGUI()
 {
   //CEGUI
@@ -139,9 +132,29 @@ void MyApp::createGUI()
 
   //Sheet
   CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Sheet");
+  _framelistener->setSheet(sheet);
 
   //Config Window
   CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("init.layout");
+  _framelistener->setMenuInit(formatWin);
+
+  //Config Button
+  CEGUI::Window* exitButton = formatWin->getChild("ExitButton");
+  exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&MyFrameListener::quit, 
+						      _framelistener));
+  CEGUI::Window* newGameButton = formatWin->getChild("NewGameButton");
+  newGameButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&MyFrameListener::newGame, 
+						      _framelistener));
+  CEGUI::Window* creditsButton = formatWin->getChild("CreditsButton");
+  creditsButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&MyFrameListener::showCredits, 
+						      _framelistener));
+  CEGUI::Window* rankingButton = formatWin->getChild("RankingButton");
+  rankingButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&MyFrameListener::showRanking, 
+						      _framelistener));
 
   //Attaching buttons
   sheet->addChild(formatWin);
