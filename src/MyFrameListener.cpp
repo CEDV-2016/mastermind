@@ -164,7 +164,14 @@ void MyFrameListener::setMenuInit(CEGUI::Window* init)
   _init = init;
 }
 
-
+void MyFrameListener::moveCamera(int posX, int posY, int posZ)
+{
+  Ogre::Real tSpeed = 20.0;
+  Ogre::Real deltaT = 0.1;
+  Ogre::Vector3 vt(0, 0, 0);
+  vt += Ogre::Vector3(posX, posY, posZ);
+  _camera->moveRelative(vt * deltaT * tSpeed);
+}
 
 bool MyFrameListener::quit(const CEGUI::EventArgs &e)
 {
@@ -195,12 +202,14 @@ bool MyFrameListener::showCredits(const CEGUI::EventArgs &e)
     creditsWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("credits.layout");
     _credits = creditsWin;
     _init->hide();
+    moveCamera(0, 2, 0);
     _sheet->addChild(creditsWin);
     CEGUI::Window* backButton = creditsWin->getChild("BackButton");
     backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MyFrameListener::hideCredits, this));
 
   }else{
     _init->hide();
+    moveCamera(0, 2, 0);
     _credits->show();
   }
   return true;
@@ -209,6 +218,7 @@ bool MyFrameListener::showCredits(const CEGUI::EventArgs &e)
 bool MyFrameListener::hideCredits(const CEGUI::EventArgs &e)
 {
   _credits->hide();
+    moveCamera(0, -2, 0);
   _init->show();
   return true;
 }
@@ -220,12 +230,14 @@ bool MyFrameListener::showRanking(const CEGUI::EventArgs &e)
     rankingWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("ranking.layout");
     _ranking = rankingWin;
     _init->hide();
+    moveCamera(0, -2, 0);
     _sheet->addChild(rankingWin);
     CEGUI::Window* backButton = rankingWin->getChild("BackButton");
     backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&MyFrameListener::hideRanking, this));
 
   }else{
     _init->hide();
+    moveCamera(0, -2, 0);
     _ranking->show();
   }
   return true;
@@ -234,6 +246,7 @@ bool MyFrameListener::showRanking(const CEGUI::EventArgs &e)
 bool MyFrameListener::hideRanking(const CEGUI::EventArgs &e)
 {
   _ranking->hide();
+    moveCamera(0, 2, 0);
   _init->show();
   return true;
 }

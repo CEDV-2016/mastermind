@@ -21,7 +21,7 @@ private:
   Ogre::RaySceneQuery *_raySceneQuery;
   Ogre::SceneNode *_selectedNode;
   Ogre::Ray setRayQuery(int posx, int posy);
-
+  
   bool keyPressed(const OIS::KeyEvent& evt);
   bool keyReleased(const OIS::KeyEvent& evt);
   bool mouseMoved(const OIS::MouseEvent& evt);
@@ -32,6 +32,8 @@ private:
   float _timeSinceLastFrame;
 
   CEGUI::MouseButton convertMouseButton(OIS::MouseButtonID id);
+
+  void moveCamera(int posX, int posY, int posZ);
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::OverlayManager *om, Ogre::SceneManager* sm);

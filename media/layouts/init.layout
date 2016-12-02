@@ -2,7 +2,7 @@
 
 <GUILayout version="4" >
     <Window type="Vanilla/FrameWindow" name="Init" >
-        <Property name="Area" value="{{0.2,0},{0.2,0},{0.4,300},{0.558333,189}}" />
+        <Property name="Area" value="{{0.2,270},{0.2,-35},{0.4,459},{0.558333,154}}" />
         <Property name="SizingEnabled" value="false" />
         <Property name="TitlebarEnabled" value="false" />
         <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />

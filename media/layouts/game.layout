@@ -53,27 +53,5 @@
             <Property name="DisabledTextColour" value="FFFFFFFF" />
             <Property name="HorizontalAlignment" value="Centre" />
         </Window>
-        <Window type="Vanilla/Label" name="Level" >
-            <Property name="Area" value="{{0,0},{0,0},{0,293},{0,38}}" />
-            <Property name="Font" value="Jura-13" />
-            <Property name="Text" value="[colour=&apos;FFFFFF00&apos;]Nivel:" />
-            <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Property name="HorzFormatting" value="LeftAligned" />
-            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
-            <Property name="VerticalAlignment" value="Centre" />
-            <Property name="DisabledTextColour" value="FFFFFFFF" />
-            <Property name="HorizontalAlignment" value="Right" />
-        </Window>
-        <Window type="Vanilla/Label" name="LevelText" >
-            <Property name="Area" value="{{0,25},{0,0},{0,293},{0,38}}" />
-            <Property name="Font" value="Jura-13" />
-            <Property name="Text" value="Fácil" />
-            <Property name="MaxSize" value="{{1,0},{1,0}}" />
-            <Property name="HorzFormatting" value="LeftAligned" />
-            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
-            <Property name="VerticalAlignment" value="Centre" />
-            <Property name="DisabledTextColour" value="FFFFFFFF" />
-            <Property name="HorizontalAlignment" value="Right" />
-        </Window>
     </Window>
 </GUILayout>
