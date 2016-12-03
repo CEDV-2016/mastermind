@@ -3,7 +3,7 @@
 #include <Ogre.h>
 #include "MyFrameListener.hpp"
 #include "BallsFactory.hpp"
-#include "Colors.hpp"
+#include "Flags.hpp"
 
 class MyApp {
 

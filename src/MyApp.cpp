@@ -85,12 +85,12 @@ void MyApp::createScene() {
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
 
   //Cajas y bolas
-  _ballsFactory->createBoxAndBallSlew(RED,   1, 0, 1); //X Z -Y
-  _ballsFactory->createBoxAndBallSlew(BLUE,  1, 0, -0.5);
-  _ballsFactory->createBoxAndBallSlew(GREEN, 1, 0, -1);
-  _ballsFactory->createBoxAndBallSlew(WHITE, 2, 0, 1);
-  _ballsFactory->createBoxAndBallSlew(PINK,  2, 0, -0.5);
-  _ballsFactory->createBoxAndBallSlew(BLACK, 2, 0, -1);
+  _ballsFactory->createBoxAndBallSlew("RED",   1, 0, 1); //X Z -Y
+  _ballsFactory->createBoxAndBallSlew("BLUE",  1, 0, -0.5);
+  _ballsFactory->createBoxAndBallSlew("GREEN", 1, 0, -1);
+  _ballsFactory->createBoxAndBallSlew("WHITE", 2, 0, 1);
+  _ballsFactory->createBoxAndBallSlew("PINK",  2, 0, -0.5);
+  _ballsFactory->createBoxAndBallSlew("BLACK", 2, 0, -1);
 
   //Suelo
   Ogre::Entity* ent_ground = _sceneManager->createEntity("Ground.mesh");
@@ -98,6 +98,14 @@ void MyApp::createScene() {
   Ogre::SceneNode* node_ground = _sceneManager->createSceneNode("Ground");
   node_ground->attachObject(ent_ground);
   _sceneManager->getRootSceneNode()->addChild(node_ground);
+
+  //Tile
+  Ogre::Entity* ent_tile = _sceneManager->createEntity("Tile.mesh");
+  ent_tile->setQueryFlags(TILE);
+  Ogre::SceneNode* node_tile = _sceneManager->createSceneNode("Tile");
+  node_tile->attachObject(ent_tile);
+  _sceneManager->getRootSceneNode()->addChild(node_tile);
+
 
   //Luz
   _sceneManager->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);

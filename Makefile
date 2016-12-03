@@ -49,7 +49,7 @@ $(DIROBJ)%.o: $(DIRSRC)%.cpp
 
 # Limpieza de temporales ---------------------------------------------
 clean:
-	$(RM) *.log $(EXEC) *~ $(DIROBJ)* $(DIRSRC)*~ $(DIRHEA)*~
+	$(RM) -r *.log $(EXEC) *~ $(DIROBJ) $(DIRSRC)*~ $(DIRHEA)*~
 
 dir:
 	mkdir -p obj/
