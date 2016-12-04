@@ -76,7 +76,9 @@ void MyApp::loadResources() {
 void MyApp::createScene() {
   _ballsFactory = new BallsFactory(_sceneManager);
 
-  //Mastermind
+  /*
+  * Mastermind
+  */
   Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind.mesh");
   ent_mastermind->setQueryFlags(BOARD);
   Ogre::SceneNode* node_mastermind = _sceneManager->createSceneNode("Mastermind");
@@ -84,30 +86,47 @@ void MyApp::createScene() {
   node_mastermind->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
 
-  //Cajas y bolas
+  /*
+  * Boxes and ball slews
+  */
   _ballsFactory->createBoxAndBallSlew("RED",   1, 0, 1); //X Z -Y
   _ballsFactory->createBoxAndBallSlew("BLUE",  1, 0, -0.5);
   _ballsFactory->createBoxAndBallSlew("GREEN", 1, 0, -1);
   _ballsFactory->createBoxAndBallSlew("WHITE", 2, 0, 1);
   _ballsFactory->createBoxAndBallSlew("PINK",  2, 0, -0.5);
-  _ballsFactory->createBoxAndBallSlew("BLACK", 2, 0, -1);
+  _ballsFactory->createBoxAndBallSlew("YELLOW", 2, 0, -1);
 
-  //Suelo
+  /*
+  * Ground
+  */
   Ogre::Entity* ent_ground = _sceneManager->createEntity("Ground.mesh");
   ent_ground->setQueryFlags(GROUND);
   Ogre::SceneNode* node_ground = _sceneManager->createSceneNode("Ground");
   node_ground->attachObject(ent_ground);
   _sceneManager->getRootSceneNode()->addChild(node_ground);
 
-  //Tile
-  Ogre::Entity* ent_tile = _sceneManager->createEntity("Tile.mesh");
-  ent_tile->setQueryFlags(TILE);
-  Ogre::SceneNode* node_tile = _sceneManager->createSceneNode("Tile");
-  node_tile->attachObject(ent_tile);
-  _sceneManager->getRootSceneNode()->addChild(node_tile);
+  /*
+  * Tiles
+  */
+  Ogre::Entity* ent_tile;
+  Ogre::SceneNode* node_tile;
+  std::stringstream tile_name;
 
+  for (int z=0; z < 6; z++) { // 6 filas
+    for (int x=0; x < 4; x++) { // 4 huecos en cada fila
+      ent_tile = _sceneManager->createEntity("Tile.mesh");
+      ent_tile->setQueryFlags(TILE);
+      tile_name << "Tile_" << x << z;
+      node_tile = _sceneManager->createSceneNode(tile_name.str());
+      node_tile->attachObject(ent_tile);
+      node_tile->translate(-1.62 + (double)x/3.3, 1.05, 1.19 - (double)z/2.6);
+      _sceneManager->getRootSceneNode()->addChild(node_tile);
+    }
+  }
 
-  //Luz
+  /*
+  * Light
+  */
   _sceneManager->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
   Ogre::Light* light = _sceneManager->createLight("Light1");
   light->setType(Ogre::Light::LT_DIRECTIONAL);

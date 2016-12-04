@@ -67,7 +67,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     case SELECTING:
 
     /*
-    * Hacer que al pasar el ratón por encima de un slew el color se vuleva blanquecino.
+    * Molaría hacer que al pasar el ratón por encima de un slew el color se
+    * vuleva blanquecino.
     */
     if (mbleft) {
       if (_selectedNode != NULL) {
@@ -75,7 +76,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         _selectedNode = NULL;
       }
 
-      setRayQuery(posx, posy, -1);
+      setRayQuery(posx, posy, SLEW);
       Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
       Ogre::RaySceneQueryResult::iterator it;
       it = result.begin();
@@ -85,23 +86,26 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         _selectedNode->showBoundingBox(true);
       }
 
-      flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
-      if (flags == SLEW) {
-        std::string color;
-        std::istringstream stream(_selectedNode->getName());
-        while (getline(stream, color, '_'));
+      if (_selectedNode != NULL) {
 
-        _current_ball = _ballsFactory->createBall(color);
+        flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
+        if (flags == SLEW) {
+          std::string color;
+          std::istringstream full_name(_selectedNode->getName());
+          while (getline(full_name, color, '_')); //Obtenemos el último split
 
-        _game->setState(MOVING);
+          _current_ball = _ballsFactory->createBall(color);
+
+          _game->setState(MOVING);
+        }
       }
     }
     break;
 
     /**
     * Este estado se ejecuta cuando hemos seleccionado una bola. Ahora tenemos
-    * que moverla a las mismas coordenadas del ratón hasta que haga click y la
-    * coloque encima del tablero.
+    * que moverla a las mismas coordenadas del ratón hasta que haga click sobre
+    una cuadrícula encima del tablero.
     */
     case MOVING:
 
@@ -115,23 +119,35 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       position = r.getPoint(it->distance);
       int y = position.y < 0.1 ? 0 : 1;
       _current_ball->setPosition(position.x, y, position.z);
-      flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
+      // flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
     }
 
     /**
     * Como la bola está debajo del ratón no se puede pinchar en el tablero
-    * (solo detecta bola). Mediante queries le decimos que solo mire el tablero.
+    * (solo detecta bola). Mediante queries le decimos que solo mire los tiles.
     */
     if (mbleft) {
-      r = setRayQuery(posx, posy, BOARD);
+      if (_selectedNode != NULL){
+        _selectedNode->showBoundingBox(false);
+        _selectedNode = NULL;
+      }
+
+      r = setRayQuery(posx, posy, TILE);
       result = _raySceneQuery->execute();
       it = result.begin();
 
       if (it != result.end()) {
-        flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
+        _selectedNode = it->movable->getParentSceneNode();
+        _selectedNode->showBoundingBox(true);
       }
-      if (flags == BOARD) {
-        _current_ball->setPosition(r.getPoint(it->distance));
+      if (_selectedNode != NULL) {
+        std::string coordinates, x, y;
+        std::istringstream full_name(_selectedNode->getName());
+        while (getline(full_name, coordinates, '_'));
+        x = coordinates.substr(0,1);
+        y = coordinates.substr(1,2);
+        std::cout << "Bola colocada en la posición x = " << x << " y = " << y << std::endl;
+        _current_ball->setPosition(_selectedNode->getPosition());
         _game->setState(SELECTING);
       }
     }
@@ -149,13 +165,13 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   oe = _overlayManager->getOverlayElement("objectInfo");
   if (_selectedNode != NULL) {
 
-    flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
-    if (flags == SLEW) {
-      std::istringstream stream(_selectedNode->getName());
-      while (getline(stream, color, '_'));
-    }
+    // flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
+    // if (flags == SLEW) {
+    //   std::istringstream stream(_selectedNode->getName());
+    //   while (getline(stream, color, '_'));
+    // }
 
-    stream << "Flags: " << color << " State: " << _game->getState();
+    stream << "Flags: " << _selectedNode->getName() << " State: " << _game->getState();
     oe->setCaption(stream.str());
   }
   else {

@@ -78,6 +78,7 @@ Ogre::ColourValue BallsFactory::colorToOgreColor(std::string color)
   if (color == "GREEN") return Ogre::ColourValue(0, 0.6, 0);
   if (color == "PINK")  return Ogre::ColourValue(0.7, 0.1, 0.7);
   if (color == "WHITE") return Ogre::ColourValue(0.7, 0.7, 0.7);
+  if (color == "YELLOW") return Ogre::ColourValue(0.7, 0.7, 0.1);
   if (color == "BLACK") return Ogre::ColourValue(0.1, 0.1, 0.1);
 
   return Ogre::ColourValue(1, 1, 1);
