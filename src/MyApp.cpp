@@ -110,18 +110,27 @@ void MyApp::createScene() {
   */
   Ogre::Entity* ent_tile;
   Ogre::SceneNode* node_tile;
-  std::stringstream tile_name;
 
-  for (int z=0; z < 6; z++) { // 6 filas
-    for (int x=0; x < 4; x++) { // 4 huecos en cada fila
+  for (int row=0; row < NUM_ROWS; row++) {
+    for (int col=0; col < ROW_SIZE; col++) {
+      std::stringstream tile_name;
       ent_tile = _sceneManager->createEntity("Tile.mesh");
       ent_tile->setQueryFlags(TILE);
-      tile_name << "Tile_" << x << z;
+      tile_name << "Tile_" << row << col;
       node_tile = _sceneManager->createSceneNode(tile_name.str());
       node_tile->attachObject(ent_tile);
-      node_tile->translate(-1.62 + (double)x/3.3, 1.05, 1.19 - (double)z/2.6);
+      node_tile->translate(-1.62 + (double)col/3.3, 1.05, 1.19 - (double)row/2.6);
       _sceneManager->getRootSceneNode()->addChild(node_tile);
     }
+  }
+
+  /*
+  * Black balls
+  */
+  Ogre::SceneNode* black_ball_node;
+  for (int col=0; col < ROW_SIZE; col++) {
+    black_ball_node = _ballsFactory->createBall("BLACK");
+    black_ball_node->setPosition(-1.62 + (double)col/3.3, 1.1, -1.15);
   }
 
   /*

@@ -52,7 +52,7 @@ Ogre::SceneNode* BallsFactory::createBall(std::string color) {
   Ogre::MaterialPtr mPtr = createMaterial(color);
   ent_ball->getSubEntity(0)->setMaterial(mPtr);
 
-  ball_name << "BallNode_" << _ball_counter;
+  ball_name << "BallNode_" << _ball_counter << "_" << color;
   _ball_counter += 1;
   Ogre::SceneNode* node_ball = _sceneManager->createSceneNode(ball_name.str());
   node_ball->attachObject(ent_ball);

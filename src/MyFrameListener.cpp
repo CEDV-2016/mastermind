@@ -49,6 +49,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   // if(_keyboard->isKeyDown(OIS::KC_S)) vt += Ogre::Vector3(0, -1, 0);
   // if(_keyboard->isKeyDown(OIS::KC_D)) vt += Ogre::Vector3(1, 0, 0);
   // _camera->moveRelative(vt * deltaT * tSpeed);
+   if(_keyboard->isKeyDown(OIS::KC_P)) {
+     std::cout << _game->toString() << std::endl;
+   }
+
 
   //Mover ratón
   _mouse->capture();
@@ -102,10 +106,10 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     }
     break;
 
-    /**
+    /*
     * Este estado se ejecuta cuando hemos seleccionado una bola. Ahora tenemos
     * que moverla a las mismas coordenadas del ratón hasta que haga click sobre
-    una cuadrícula encima del tablero.
+    * una cuadrícula encima del tablero.
     */
     case MOVING:
 
@@ -122,7 +126,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       // flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
     }
 
-    /**
+    /*
     * Como la bola está debajo del ratón no se puede pinchar en el tablero
     * (solo detecta bola). Mediante queries le decimos que solo mire los tiles.
     */
@@ -141,12 +145,20 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         _selectedNode->showBoundingBox(true);
       }
       if (_selectedNode != NULL) {
-        std::string coordinates, x, y;
-        std::istringstream full_name(_selectedNode->getName());
-        while (getline(full_name, coordinates, '_'));
-        x = coordinates.substr(0,1);
-        y = coordinates.substr(1,2);
-        std::cout << "Bola colocada en la posición x = " << x << " y = " << y << std::endl;
+        std::string coordinates, col, row, color;
+        int int_col, int_row;
+        std::istringstream tile_name(_selectedNode->getName());
+        std::istringstream ball_name(_current_ball->getName());
+        while (getline(tile_name, coordinates, '_'));
+        while (getline(ball_name, color, '_'));
+
+        row = coordinates.substr(0,1);
+        col = coordinates.substr(1,2);
+        std::istringstream(row) >> int_row;
+        std::istringstream(col) >> int_col;
+        std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
+
+        _game->addBall(int_row, int_col, color);
         _current_ball->setPosition(_selectedNode->getPosition());
         _game->setState(SELECTING);
       }
