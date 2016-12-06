@@ -72,12 +72,11 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       * vuleva blanquecino.
       */
       if (mbleft) {
-        if (_selectedNode != NULL) {
-          _selectedNode->showBoundingBox(false);
-          _selectedNode = NULL;
-        }
 
-        setRayQuery(posx, posy, -2);
+        if (_selectedNode != NULL) _selectedNode->showBoundingBox(false);
+        _selectedNode = NULL;
+
+        setRayQuery(posx, posy, SLEW | BUTTON);
         Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
@@ -88,22 +87,22 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         }
 
         if (_selectedNode != NULL) {
+          switch (_selectedNode->getAttachedObject(0)->getQueryFlags()){
 
-          int flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
-          std::cout << "Flags " << flags << "\n";
-          std::cout << "SLEW " << SLEW << "\n";
-          std::cout << "BUTTON " << BUTTON << "\n";
-          if (flags == SLEW) {
-            std::string color;
-            std::istringstream full_name(_selectedNode->getName());
-            while (getline(full_name, color, '_')); //Obtenemos el último split
+            case SLEW:
+            {
+              std::string color;
+              std::istringstream full_name(_selectedNode->getName());
+              while (getline(full_name, color, '_')); //Obtenemos el último split
 
-            _current_ball = _ballsFactory->createBall(color);
+              _current_ball = _ballsFactory->createBall(color);
 
-            _game->setState(MOVING);
-          }
-          if (flags == BUTTON) {
-            _game->setState(CHECKING);
+              _game->setState(MOVING);
+            } break;
+
+            case BUTTON: {
+              _game->setState(CHECKING);
+            } break;
           }
         }
       }
@@ -204,7 +203,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     } break;
 
     case GAME_OVER:
-    {}
+    {
+    }
     break;
   } //switch
 
@@ -234,17 +234,14 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   return true;
 }
 
-Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, int mask) {
+Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
   Ogre::uint32 all_masks = BOARD | GROUND | TILE | BOX | SLEW | BALL | BUTTON;
-  Ogre::uint32 slew_button = SLEW | BUTTON;
 
   Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
 
-  if (mask == -1) _raySceneQuery->setQueryMask(all_masks);
-  if (mask == -2) _raySceneQuery->setQueryMask(slew_button);
-  else _raySceneQuery->setQueryMask(mask);
+  _raySceneQuery->setQueryMask(mask == (Ogre::uint32)-1 ? all_masks : mask);
 
   return rayMouse;
 }
