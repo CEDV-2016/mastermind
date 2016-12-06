@@ -4,6 +4,8 @@ BallsFactory::BallsFactory(Ogre::SceneManager* sm)
 {
   _sceneManager = sm;
   _ball_counter = 0;
+
+  for (int i = 0; i < 7; i++) createMaterial(_all_colors[i]);
 }
 
 BallsFactory::~BallsFactory()
@@ -31,8 +33,7 @@ void BallsFactory::createBoxAndBallSlew(std::string color_str, int x, int z, int
   /*
   *Creamos un material para cada entity, ya que si no al cambiar el color de una se cambian todas.
   */
-  Ogre::MaterialPtr mPtr = createMaterial(color_str);
-  ent_slew->getSubEntity(0)->setMaterial(mPtr);
+  ent_slew->getSubEntity(0)->setMaterialName(color_str);
 
   slew_name << "SlewNode_" << color_str;
   Ogre::SceneNode* node_slew = _sceneManager->createSceneNode(slew_name.str());
@@ -49,8 +50,7 @@ Ogre::SceneNode* BallsFactory::createBall(std::string color) {
   Ogre::Entity* ent_ball = _sceneManager->createEntity("Ball.mesh");
   ent_ball->setQueryFlags(BALL);
 
-  Ogre::MaterialPtr mPtr = createMaterial(color);
-  ent_ball->getSubEntity(0)->setMaterial(mPtr);
+  ent_ball->getSubEntity(0)->setMaterialName(color);
 
   ball_name << "BallNode_" << _ball_counter << "_" << color;
   _ball_counter += 1;
@@ -67,6 +67,7 @@ Ogre::MaterialPtr BallsFactory::createMaterial(std::string color)
   (color, Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, true);
   mPtr->setAmbient(colorToOgreColor(color));
   mPtr.getPointer()->getTechnique(0)->getPass(0)->setDiffuse(0.4, 0.4, 0.4, 0);
+  mPtr.getPointer()->getTechnique(0)->getPass(0)->setSpecular(0.4, 0.4, 0.4, 0);
 
   return mPtr;
 }

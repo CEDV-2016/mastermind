@@ -10,6 +10,7 @@ private:
   int _ball_counter;
   Ogre::MaterialPtr createMaterial(std::string color);
   Ogre::ColourValue colorToOgreColor(std::string color);
+  const std::string _all_colors[7] {"RED", "BLUE", "GREEN", "PINK", "YELLOW", "WHITE", "BLACK"};
 
 public:
   BallsFactory(Ogre::SceneManager* sm);
