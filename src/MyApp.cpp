@@ -87,6 +87,17 @@ void MyApp::createScene() {
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
 
   /*
+  * Button
+  */
+  Ogre::Entity* ent_button = _sceneManager->createEntity("Button.mesh");
+  ent_button->setQueryFlags(BUTTON);
+  Ogre::SceneNode* node_button = _sceneManager->createSceneNode("Button");
+  node_button->attachObject(ent_button);
+  node_button->translate(-0.292, 1.086, -1.179);
+  _sceneManager->getRootSceneNode()->addChild(node_button);
+
+
+  /*
   * Boxes and ball slews
   */
   _ballsFactory->createBoxAndBallSlew("RED",   1, 0, 1); //X Z -Y

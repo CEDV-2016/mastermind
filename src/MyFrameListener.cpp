@@ -19,7 +19,7 @@ MyFrameListener::MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogr
   _mouse = static_cast<OIS::Mouse*> (_inputManager->createInputObject(OIS::OISMouse, false));
   _mouse->getMouseState().width = _win->getWidth();
   _mouse->getMouseState().height = _win->getHeight();
-  _game = new Game();
+  _game = new Game("Player");
 
   _raySceneQuery = _sceneManager->createRayQuery(Ogre::Ray());
   _selectedNode = NULL;
@@ -49,9 +49,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   // if(_keyboard->isKeyDown(OIS::KC_S)) vt += Ogre::Vector3(0, -1, 0);
   // if(_keyboard->isKeyDown(OIS::KC_D)) vt += Ogre::Vector3(1, 0, 0);
   // _camera->moveRelative(vt * deltaT * tSpeed);
-   if(_keyboard->isKeyDown(OIS::KC_P)) {
-     std::cout << _game->toString() << std::endl;
-   }
+  if(_keyboard->isKeyDown(OIS::KC_P)) std::cout << _game->toString() << std::endl;
 
 
   //Mover ratón
@@ -60,51 +58,53 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   int posy = _mouse->getMouseState().Y.abs;   //  en pixeles.
   mbleft = _mouse->getMouseState().buttonDown(OIS::MB_Left); //Click izquierdo
 
-  int flags;
-
-  switch(_game->getState()){
+  switch(_game->getState())
+  {
 
     /**
     * Este estado se ejecuta cuando aun no hemos seleccionado ningun color de las
     * cajas de bolas. Al hacer click en una caja creamos una bola de ese color.
     */
     case SELECTING:
+    {
+      /*
+      * Molaría hacer que al pasar el ratón por encima de un slew el color se
+      * vuleva blanquecino.
+      */
+      if (mbleft) {
+        if (_selectedNode != NULL) {
+          _selectedNode->showBoundingBox(false);
+          _selectedNode = NULL;
+        }
 
-    /*
-    * Molaría hacer que al pasar el ratón por encima de un slew el color se
-    * vuleva blanquecino.
-    */
-    if (mbleft) {
-      if (_selectedNode != NULL) {
-        _selectedNode->showBoundingBox(false);
-        _selectedNode = NULL;
-      }
+        setRayQuery(posx, posy, -2);
+        Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
+        Ogre::RaySceneQueryResult::iterator it;
+        it = result.begin();
 
-      setRayQuery(posx, posy, SLEW);
-      Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
-      Ogre::RaySceneQueryResult::iterator it;
-      it = result.begin();
+        if (it != result.end()) {
+          _selectedNode = it->movable->getParentSceneNode();
+          _selectedNode->showBoundingBox(true);
+        }
 
-      if (it != result.end()) {
-        _selectedNode = it->movable->getParentSceneNode();
-        _selectedNode->showBoundingBox(true);
-      }
+        if (_selectedNode != NULL) {
 
-      if (_selectedNode != NULL) {
+          int flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
+          if (flags == SLEW) {
+            std::string color;
+            std::istringstream full_name(_selectedNode->getName());
+            while (getline(full_name, color, '_')); //Obtenemos el último split
 
-        flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
-        if (flags == SLEW) {
-          std::string color;
-          std::istringstream full_name(_selectedNode->getName());
-          while (getline(full_name, color, '_')); //Obtenemos el último split
+            _current_ball = _ballsFactory->createBall(color);
 
-          _current_ball = _ballsFactory->createBall(color);
-
-          _game->setState(MOVING);
+            _game->setState(MOVING);
+          }
+          if (flags == BUTTON) {
+            _game->setState(CHECKING);
+          }
         }
       }
-    }
-    break;
+    } break;
 
     /*
     * Este estado se ejecuta cuando hemos seleccionado una bola. Ahora tenemos
@@ -112,59 +112,99 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     * una cuadrícula encima del tablero.
     */
     case MOVING:
-
-    Ogre::Ray r = setRayQuery(posx, posy, -1);
-    Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
-    Ogre::RaySceneQueryResult::iterator it;
-    Ogre::Vector3 position;
-    it = result.begin();
-
-    if (it != result.end()) {
-      position = r.getPoint(it->distance);
-      int y = position.y < 0.1 ? 0 : 1;
-      _current_ball->setPosition(position.x, y, position.z);
-      // flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
-    }
-
-    /*
-    * Como la bola está debajo del ratón no se puede pinchar en el tablero
-    * (solo detecta bola). Mediante queries le decimos que solo mire los tiles.
-    */
-    if (mbleft) {
-      if (_selectedNode != NULL){
-        _selectedNode->showBoundingBox(false);
-        _selectedNode = NULL;
-      }
-
-      r = setRayQuery(posx, posy, TILE);
-      result = _raySceneQuery->execute();
+    {
+      Ogre::Ray r = setRayQuery(posx, posy, -1);
+      Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
+      Ogre::RaySceneQueryResult::iterator it;
+      Ogre::Vector3 position;
       it = result.begin();
 
       if (it != result.end()) {
-        _selectedNode = it->movable->getParentSceneNode();
-        _selectedNode->showBoundingBox(true);
+        position = r.getPoint(it->distance);
+        int y = position.y < 0.1 ? 0 : 1;
+        _current_ball->setPosition(position.x, y, position.z);
+        // flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
       }
-      if (_selectedNode != NULL) {
-        std::string coordinates, col, row, color;
-        int int_col, int_row;
-        std::istringstream tile_name(_selectedNode->getName());
-        std::istringstream ball_name(_current_ball->getName());
-        while (getline(tile_name, coordinates, '_'));
-        while (getline(ball_name, color, '_'));
 
-        row = coordinates.substr(0,1);
-        col = coordinates.substr(1,2);
-        std::istringstream(row) >> int_row;
-        std::istringstream(col) >> int_col;
-        std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
+      /*
+      * Como la bola está debajo del ratón no se puede pinchar en el tablero
+      * (solo detecta bola). Mediante queries le decimos que solo mire los tiles.
+      */
+      if (mbleft) {
+        if (_selectedNode != NULL){
+          _selectedNode->showBoundingBox(false);
+          _selectedNode = NULL;
+        }
 
-        _game->addBall(int_row, int_col, color);
-        _current_ball->setPosition(_selectedNode->getPosition());
+        r = setRayQuery(posx, posy, TILE);
+        result = _raySceneQuery->execute();
+        it = result.begin();
+
+        if (it != result.end()) {
+          _selectedNode = it->movable->getParentSceneNode();
+          _selectedNode->showBoundingBox(true);
+        }
+        if (_selectedNode != NULL) {
+          std::string coordinates, col, row, color;
+          int int_col, int_row;
+          std::istringstream tile_name(_selectedNode->getName());
+          std::istringstream ball_name(_current_ball->getName());
+          while (getline(tile_name, coordinates, '_'));
+          while (getline(ball_name, color, '_'));
+
+          row = coordinates.substr(0,1);
+          col = coordinates.substr(1,2);
+          std::istringstream(row) >> int_row;
+          std::istringstream(col) >> int_col;
+
+          if (_game->getCurrentRow() == int_row) {
+            std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
+            _game->addBall(int_row, int_col, color);
+            _current_ball->setPosition(_selectedNode->getPosition());
+            _game->setState(SELECTING);
+          }
+        }
+      }
+    } break;
+
+    case CHECKING:
+    {
+      if (_game->currentRowFull())
+      {
+        if (_game->checkCurrentRow())
+        {
+          std::cout << "Has ganado!\n";
+          _game->setState(GAME_OVER);
+        }
+        else
+        {
+          _game->addCurrentRow();
+
+          if (_game->getCurrentRow() > NUM_ROWS-1)
+          {
+            std::cout << "Has perdido!\n";
+            _game->setState(GAME_OVER);
+          }
+          else
+          {
+            std::cout << "Mala linea, pero te quedan filas!\n";
+            _game->setState(SELECTING);
+          }
+        }
+      }
+      else
+      {
+        std::cout << "Aún no has completado la fila!\n";
         _game->setState(SELECTING);
       }
+
+    } break;
+
+    case GAME_OVER:
+    {
+      std::cout << "GAME OVER BOI\n";
     }
-    break;
-  }
+  } //switch
 
   // Overlay management
   Ogre::OverlayElement *oe;
@@ -176,12 +216,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
   oe = _overlayManager->getOverlayElement("objectInfo");
   if (_selectedNode != NULL) {
-
-    // flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
-    // if (flags == SLEW) {
-    //   std::istringstream stream(_selectedNode->getName());
-    //   while (getline(stream, color, '_'));
-    // }
 
     stream << "Flags: " << _selectedNode->getName() << " State: " << _game->getState();
     oe->setCaption(stream.str());
@@ -199,10 +233,16 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 }
 
 Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, int mask) {
-  Ogre::uint32 all_masks = BOARD | GROUND | TILE | BOX | SLEW | BALL;
+  Ogre::uint32 all_masks = BOARD | GROUND | TILE | BOX | SLEW | BALL | BUTTON;
+  Ogre::uint32 slew_button = SLEW | BUTTON;
+
   Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
-  _raySceneQuery->setQueryMask(mask == -1 ? all_masks : mask);
+
+  if (mask == -1) _raySceneQuery->setQueryMask(all_masks);
+  if (mask == -2) _raySceneQuery->setQueryMask(slew_button);
+  else _raySceneQuery->setQueryMask(mask);
+
   return rayMouse;
 }

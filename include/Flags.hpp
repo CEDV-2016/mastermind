@@ -6,3 +6,4 @@
 #define BOX    1 << 3
 #define SLEW   1 << 4
 #define BALL   1 << 5
+#define BUTTON 1 << 6

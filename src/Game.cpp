@@ -1,11 +1,14 @@
 #include "Game.hpp"
 
-Game::Game() {
+Game::Game(std::string name) {
   for (int i = 0; i < NUM_ROWS; i++) {
     _rows[i] = new Row();
   }
   generateRandomResult();
-  _state = SELECTING; //MAIN_MENU
+  _points = 1000;
+  _player = name;
+  _currentRow = 0;
+  _state = SELECTING;
 }
 
 Game::~Game () {
@@ -35,8 +38,12 @@ void Game::generateRandomResult() {
   }
 }
 
-bool Game::checkRow(int row) {
-  return _result == _rows[row];
+bool Game::checkCurrentRow() {
+  return _rows[_currentRow]->equals(_result);
+}
+
+bool Game::currentRowFull() {
+  return _rows[_currentRow]->isFull();
 }
 
 bool Game::rowsLeft() {
@@ -46,14 +53,30 @@ bool Game::rowsLeft() {
   return true;
 }
 
+int Game::getCurrentRow() {
+  return _currentRow;
+}
+
+void Game::addCurrentRow() {
+  _currentRow++;
+}
+
 std::string Game::toString(){
   std::stringstream stream;
-
+  std::string msg;
   stream << "----GAME TO STRING----" << "\n";
   stream << "Res = " << _result->toString() << "\n";
 
   for (int i = NUM_ROWS-1; i >= 0; i--) {
-    stream << i << ". " <<  _rows[i]->toString() << "\n";
+    msg = _currentRow == i? "<" : "";
+    stream << i << ". " <<  _rows[i]->toString() << msg <<  "\n";
   }
   return stream.str();
+}
+
+void Game::saveRankings() {
+  std::ofstream outfile;
+
+  outfile.open("rankings.csv", std::ios::app);
+  outfile << _player << ";" << _points << "\n";
 }
