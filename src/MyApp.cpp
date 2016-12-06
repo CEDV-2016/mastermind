@@ -79,12 +79,18 @@ void MyApp::createScene() {
   /*
   * Mastermind
   */
-  Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind.mesh");
+  Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind", "Mastermind.mesh");
   ent_mastermind->setQueryFlags(BOARD);
   Ogre::SceneNode* node_mastermind = _sceneManager->createSceneNode("Mastermind");
   node_mastermind->attachObject(ent_mastermind);
   node_mastermind->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
+
+  for (unsigned int i=0; i<ent_mastermind->getNumSubEntities(); i++) {
+    Ogre::SubEntity *aux = ent_mastermind->getSubEntity(i);
+    if (aux->getMaterialName() == "Row_0")
+      aux->setMaterialName("Material.alfa");
+  }
 
   /*
   * Button

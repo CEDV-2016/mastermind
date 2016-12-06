@@ -190,6 +190,17 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
           else
           {
             std::cout << "Mala linea, pero te quedan filas!\n";
+
+            Ogre::Entity* ent_mastermind = _sceneManager->getEntity("Mastermind");
+            std::stringstream name, name_before;
+            name << "Row_" << _game->getCurrentRow();
+            name_before << "Row_" << _game->getCurrentRow() -1;
+            for (unsigned int i=0; i<ent_mastermind->getNumSubEntities(); i++) {
+              Ogre::SubEntity *aux = ent_mastermind->getSubEntity(i);
+              if (aux->getMaterialName() == "Material.alfa") aux->setMaterialName(name_before.str());
+              if (aux->getMaterialName() == name.str()) aux->setMaterialName("Material.alfa");
+            }
+
             _game->setState(SELECTING);
           }
         }
