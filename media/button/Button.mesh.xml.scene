@@ -1,0 +1,71 @@
+<scene formatVersion="1.0.1" previous_export_time="1481050006.6153445" exported_by="pedroma" export_time="1481053723.2241423" >
+  <nodes >
+    <node name="Button" >
+      <position y="1.086322" x="-0.276254" z="-1.179092" />
+      <rotation qw="1.000000" qz="-0.000000" qx="0.000000" qy="0.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity lock_rot_x="False" lock_rot_y="False" lock_trans_y="False" physics_type="STATIC" damping_rot="0.10000000149011612" mass="1.0" inertia_tensor="0.4000000059604645" anisotropic_friction="False" friction_z="1.0" lock_trans_z="False" friction_x="1.0" actor="False" friction_y="1.0" lock_rot_z="False" ghost="False" velocity_max="0.0" velocity_min="0.0" damping_trans="0.03999999910593033" lock_trans_x="False" mass_radius="1.0" name="Button" meshFile="Button.mesh" />
+    </node>
+    <node name="Camera" >
+      <position y="6.000000" x="0.000000" z="2.000000" />
+      <rotation qw="0.987088" qz="-0.000000" qx="0.160182" qy="0.000000" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <camera projectionType="perspective" fov="0.6605947096585073" name="Camera" >
+        <clipping near="0.10000000149011612" nearPlaneDist="0.10000000149011612" far="100.0" farPlaneDist="100.0" />
+      </camera>
+    </node>
+    <node name="Lamp" >
+      <position y="7.000000" x="0.000000" z="-4.000000" />
+      <rotation qw="0.570947" qz="-0.272171" qx="0.169076" qy="0.755880" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <light shadow="true" powerScale="1.0" type="point" name="Lamp" >
+        <position y="7.000000" x="0.000000" z="-4.000000" />
+        <lightAttenuation range="5000" quadratic="0.0" constant="1.0" linear="0.03333335240683057" />
+        <colourDiffuse b="1.0" r="1.0" g="1.0" />
+        <colourSpecular b="1.0" r="1.0" g="1.0" />
+        <colourShadow b="1.0" r="1.0" g="1.0" />
+      </light>
+    </node>
+    <node name="Lamp.001" >
+      <position y="4.932723" x="0.038789" z="2.138767" />
+      <rotation qw="0.570947" qz="-0.272171" qx="0.169076" qy="0.755880" />
+      <scale y="1.000000" x="1.000000" z="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <light shadow="true" powerScale="1.0" type="point" name="Lamp.001" >
+        <position y="4.932723" x="0.038789" z="2.138767" />
+        <lightAttenuation range="5000" quadratic="0.0" constant="1.0" linear="0.03333335240683057" />
+        <colourDiffuse b="1.0" r="1.0" g="1.0" />
+        <colourSpecular b="1.0" r="1.0" g="1.0" />
+        <colourShadow b="1.0" r="1.0" g="1.0" />
+      </light>
+    </node>
+  </nodes>
+  <externals >
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/button/Grey.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/button/Red.material" />
+    </item>
+  </externals>
+  <environment >
+    <colourAmbient b="0.0" r="0.0" g="0.0" />
+    <colourDiffuse b="0.05087608844041824" r="0.05087608844041824" g="0.05087608844041824" />
+    <colourBackground b="0.05087608844041824" r="0.05087608844041824" g="0.05087608844041824" />
+  </environment>
+</scene>
