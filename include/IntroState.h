@@ -6,8 +6,6 @@
 #include <OgreOverlayElement.h>
 #include <OgreOverlayManager.h>
 #include <OIS/OIS.h>
-#include "BallsFactory.hpp"
-#include "Colors.hpp"
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
 
@@ -37,11 +35,12 @@ class IntroState : public Ogre::Singleton<IntroState>, public GameState
   static IntroState& getSingleton ();
   static IntroState* getSingletonPtr ();
 
-  void loadResources();
   void createScene();
-  void createOverlay();
   void createGUI();
 
+  bool newGame(const CEGUI::EventArgs &e);
+  bool navigateToCredits(const CEGUI::EventArgs &e);
+  bool navigateToRanking(const CEGUI::EventArgs &e);
   bool quit(const CEGUI::EventArgs &e);
 
  protected:
@@ -52,10 +51,10 @@ class IntroState : public Ogre::Singleton<IntroState>, public GameState
   Ogre::RaySceneQuery *_raySceneQuery;
   Ogre::SceneNode *_selectedNode;
   CEGUI::OgreRenderer* renderer; 
-  BallsFactory *_ballsFactory;
   OIS::InputManager* _inputManager;
   OIS::Keyboard* _keyboard;
   OIS::Mouse* _mouse;
+  CEGUI::Window* _intro;
 
   bool _exitGame;
 };

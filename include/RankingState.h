@@ -1,19 +1,17 @@
-#ifndef PlayState_H
-#define PlayState_H
+#ifndef RankingState_H
+#define RankingState_H
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
-#include "BallsFactory.hpp"
-#include "Colors.hpp"
 
 #include "GameState.h"
 
-class PlayState : public Ogre::Singleton<PlayState>, public GameState
+class RankingState : public Ogre::Singleton<RankingState>, public GameState
 {
  public:
-  PlayState ();
+  RankingState();
 
   void enter ();
   void exit ();
@@ -31,20 +29,25 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   bool frameEnded (const Ogre::FrameEvent& evt);
 
   // Heredados de Ogre::Singleton.
-  static PlayState& getSingleton ();
-  static PlayState* getSingletonPtr ();
+  static RankingState& getSingleton ();
+  static RankingState* getSingletonPtr ();
 
-  void createScene();
   void createGUI();
+
+  bool back(const CEGUI::EventArgs &e);
 
  protected:
   Ogre::Root* _root;
-  Ogre::SceneManager* _sceneMgr;
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
+  Ogre::SceneManager* _sceneMgr;
+  Ogre::RaySceneQuery *_raySceneQuery;
+  Ogre::SceneNode *_selectedNode;
   CEGUI::OgreRenderer* renderer; 
-  CEGUI::Window* _game;
-  BallsFactory *_ballsFactory;
+  OIS::InputManager* _inputManager;
+  OIS::Keyboard* _keyboard;
+  OIS::Mouse* _mouse;
+  CEGUI::Window* _ranking;
 
   bool _exitGame;
 };

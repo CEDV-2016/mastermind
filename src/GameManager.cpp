@@ -43,6 +43,28 @@ GameManager::start
   // El GameManager es un FrameListener.
   _root->addFrameListener(this);
 
+  //CEGUI
+  CEGUI::OgreRenderer::bootstrapSystem();
+  CEGUI::Scheme::setDefaultResourceGroup("Schemes");
+  CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
+  CEGUI::Font::setDefaultResourceGroup("Fonts");
+  CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
+  CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+
+  CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
+  CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("Vanilla-Images/MouseArrow");
+
+  // Let's make the OS and the CEGUI cursor be in the same place
+  CEGUI::Vector2f mousePos = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();  
+  CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(-mousePos.d_x,-mousePos.d_y);
+
+  CEGUI::FontManager::getSingleton().createAll("*.font", "Fonts");
+
+  //Sheet
+  CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Sheet");
+  CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+
+
   // Transición al estado inicial.
   changeState(state);
 

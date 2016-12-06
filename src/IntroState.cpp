@@ -1,6 +1,7 @@
 #include "IntroState.h"
 #include "PlayState.h"
-#include "BallsFactory.hpp"
+#include "CreditsState.h"
+#include "RankingState.h"
 
 template<> IntroState* Ogre::Singleton<IntroState>::msSingleton = 0;
 
@@ -21,22 +22,11 @@ IntroState::enter ()
   _camera->setFOVy(Ogre::Degree(40));
 
   _viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
-  _viewport->setBackgroundColour(Ogre::ColourValue(0.0, 0.0, 0.0));
   double width = _viewport->getActualWidth();
   double height = _viewport->getActualHeight();
   _camera->setAspectRatio(width / height);
 
   createScene();
-
-  OIS::ParamList param;
-  size_t windowHandle;
-  std::ostringstream wHandleStr;
-
-  //window->getCustomAttribute("WINDOW", &windowHandle);
-  wHandleStr << windowHandle;
-  param.insert(std::make_pair("WINDOW", wHandleStr.str()));
-  param.insert(std::make_pair("x11_mouse_hide", std::string("true"))); // Hide the OS mouse cursor
-
   createGUI();
 
   _exitGame = false;
@@ -57,6 +47,7 @@ IntroState::pause ()
 void
 IntroState::resume ()
 {
+  _intro->show();
 }
 
 bool
@@ -81,11 +72,6 @@ void
 IntroState::keyPressed
 (const OIS::KeyEvent &e)
 {
-  // Transición al siguiente estado.
-  // Espacio --> PlayState
-  if (e.key == OIS::KC_SPACE) {
-    //changeState(PlayState::getSingletonPtr());
-  }
 }
 
 void
@@ -118,7 +104,7 @@ IntroState::mouseReleased
 IntroState*
 IntroState::getSingletonPtr ()
 {
-return msSingleton;
+  return msSingleton;
 }
 
 IntroState&
@@ -129,21 +115,12 @@ IntroState::getSingleton ()
 }
 
 void IntroState::createScene() {
-  _ballsFactory = new BallsFactory(_sceneManager);
-
   //Mastermind
   Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind.mesh");
   Ogre::SceneNode* node_mastermind = _sceneManager->createSceneNode("Mastermind");
   node_mastermind->attachObject(ent_mastermind);
   node_mastermind->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
-
-  _ballsFactory->createBoxAndBallSlew(RED,   1, 0, 1); //X Z -Y
-  _ballsFactory->createBoxAndBallSlew(BLUE,  1, 0, -0.5);
-  _ballsFactory->createBoxAndBallSlew(GREEN, 1, 0, -1);
-  _ballsFactory->createBoxAndBallSlew(PINK,  2, 0, 1);
-  _ballsFactory->createBoxAndBallSlew(WHITE, 2, 0, -0.5);
-  _ballsFactory->createBoxAndBallSlew(BLACK, 2, 0, -1);
 
   //Suelo
   Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, 0);
@@ -167,50 +144,52 @@ void IntroState::createScene() {
 
 void IntroState::createGUI()
 {
-  //CEGUI
-  renderer = &CEGUI::OgreRenderer::bootstrapSystem();
-  CEGUI::Scheme::setDefaultResourceGroup("Schemes");
-  CEGUI::ImageManager::setImagesetDefaultResourceGroup("Imagesets");
-  CEGUI::Font::setDefaultResourceGroup("Fonts");
-  CEGUI::WindowManager::setDefaultResourceGroup("Layouts");
-  CEGUI::WidgetLookManager::setDefaultResourceGroup("LookNFeel");
+  if(_intro == NULL){
+    //Config Window
+    _intro = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("init.layout");
+    CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_intro);
 
-  CEGUI::SchemeManager::getSingleton().createFromFile("VanillaSkin.scheme");
-  CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().setDefaultImage("Vanilla-Images/MouseArrow");
-
-  // Let's make the OS and the CEGUI cursor be in the same place
-  CEGUI::Vector2f mousePos = CEGUI::System::getSingleton().getDefaultGUIContext().getMouseCursor().getPosition();  
-  CEGUI::System::getSingleton().getDefaultGUIContext().injectMouseMove(-mousePos.d_x,-mousePos.d_y);
-
-  CEGUI::FontManager::getSingleton().createAll("*.font", "Fonts");
-
-  //Sheet
-  CEGUI::Window* sheet = CEGUI::WindowManager::getSingleton().createWindow("DefaultWindow","Sheet");
-
-  //Config Window
-  CEGUI::Window* formatWin = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("init.layout");
-
-  //Config Button
-  CEGUI::Window* exitButton = formatWin->getChild("ExitButton");
-  exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+    //Config Button
+    CEGUI::Window* newGameButton = _intro->getChild("NewGameButton");
+    newGameButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&IntroState::newGame, 
+						      this));
+    CEGUI::Window* creditsButton = _intro->getChild("CreditsButton");
+    creditsButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&IntroState::navigateToCredits, 
+						      this));
+    CEGUI::Window* rankingButton = _intro->getChild("RankingButton");
+    rankingButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&IntroState::navigateToRanking, 
+						      this));
+    CEGUI::Window* exitButton = _intro->getChild("ExitButton");
+    exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
 			     CEGUI::Event::Subscriber(&IntroState::quit, 
 						      this));
-  /*CEGUI::Window* newGameButton = formatWin->getChild("NewGameButton");
-  newGameButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-			     CEGUI::Event::Subscriber(&MyFrameListener::newGame, 
-						      _framelistener));
-  CEGUI::Window* creditsButton = formatWin->getChild("CreditsButton");
-  creditsButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-			     CEGUI::Event::Subscriber(&MyFrameListener::showCredits, 
-						      _framelistener));
-  CEGUI::Window* rankingButton = formatWin->getChild("RankingButton");
-  rankingButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-			     CEGUI::Event::Subscriber(&MyFrameListener::showRanking, 
-						      _framelistener));*/
+  } else{
+    _intro->show();
+  }
+}
 
-  //Attaching buttons
-  sheet->addChild(formatWin);
-  CEGUI::System::getSingleton().getDefaultGUIContext().setRootWindow(sheet);
+bool IntroState::newGame(const CEGUI::EventArgs &e)
+{
+  _intro->hide();
+  changeState(PlayState::getSingletonPtr());
+  return true;
+}
+
+bool IntroState::navigateToCredits(const CEGUI::EventArgs &e)
+{
+  _intro->hide();
+  pushState(CreditsState::getSingletonPtr());
+  return true;
+}
+
+bool IntroState::navigateToRanking(const CEGUI::EventArgs &e)
+{
+  _intro->hide();
+  pushState(RankingState::getSingletonPtr());
+  return true;
 }
 
 bool IntroState::quit(const CEGUI::EventArgs &e)

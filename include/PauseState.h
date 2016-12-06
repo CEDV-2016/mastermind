@@ -1,19 +1,15 @@
-#ifndef PlayState_H
-#define PlayState_H
+#ifndef PauseState_H
+#define PauseState_H
 
 #include <Ogre.h>
 #include <OIS/OIS.h>
-#include <CEGUI.h>
-#include <RendererModules/Ogre/Renderer.h>
-#include "BallsFactory.hpp"
-#include "Colors.hpp"
 
 #include "GameState.h"
 
-class PlayState : public Ogre::Singleton<PlayState>, public GameState
+class PauseState : public Ogre::Singleton<PauseState>, public GameState
 {
  public:
-  PlayState ();
+  PauseState() {}
 
   void enter ();
   void exit ();
@@ -31,20 +27,14 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   bool frameEnded (const Ogre::FrameEvent& evt);
 
   // Heredados de Ogre::Singleton.
-  static PlayState& getSingleton ();
-  static PlayState* getSingletonPtr ();
-
-  void createScene();
-  void createGUI();
+  static PauseState& getSingleton ();
+  static PauseState* getSingletonPtr ();
 
  protected:
   Ogre::Root* _root;
   Ogre::SceneManager* _sceneMgr;
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
-  CEGUI::OgreRenderer* renderer; 
-  CEGUI::Window* _game;
-  BallsFactory *_ballsFactory;
 
   bool _exitGame;
 };
