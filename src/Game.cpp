@@ -5,7 +5,7 @@ Game::Game(std::string name) {
     _rows[i] = new Row();
   }
   generateRandomResult();
-  _points = 1000;
+  _points = 6000;
   _player = name;
   _currentRow = 0;
   _state = SELECTING;
@@ -24,6 +24,8 @@ int Game::getState() {
 
 void Game::setState (int state) {
   _state = state;
+
+  if (state == GAME_OVER) saveRankings();
 }
 
 void Game::addBall (int row, int column, std::string color) {
@@ -59,6 +61,8 @@ int Game::getCurrentRow() {
 
 void Game::addCurrentRow() {
   _currentRow++;
+
+  _points -= 1000;
 }
 
 std::string Game::toString(){
@@ -77,6 +81,8 @@ std::string Game::toString(){
 void Game::saveRankings() {
   std::ofstream outfile;
 
-  outfile.open("rankings.csv", std::ios::app);
+  outfile.open("media/rankings.csv", std::ios::app);
   outfile << _player << ";" << _points << "\n";
 }
+
+void Game::readRankings() {}

@@ -90,6 +90,9 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         if (_selectedNode != NULL) {
 
           int flags = _selectedNode->getAttachedObject(0)->getQueryFlags();
+          std::cout << "Flags " << flags << "\n";
+          std::cout << "SLEW " << SLEW << "\n";
+          std::cout << "BUTTON " << BUTTON << "\n";
           if (flags == SLEW) {
             std::string color;
             std::istringstream full_name(_selectedNode->getName());
@@ -201,9 +204,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     } break;
 
     case GAME_OVER:
-    {
-      std::cout << "GAME OVER BOI\n";
-    }
+    {}
+    break;
   } //switch
 
   // Overlay management
