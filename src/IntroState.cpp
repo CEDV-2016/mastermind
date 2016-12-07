@@ -1,4 +1,5 @@
 #include "IntroState.h"
+#include "NewGameState.h"
 #include "PlayState.h"
 #include "CreditsState.h"
 #include "RankingState.h"
@@ -174,7 +175,7 @@ void IntroState::createGUI()
 bool IntroState::newGame(const CEGUI::EventArgs &e)
 {
   _intro->hide();
-  changeState(PlayState::getSingletonPtr());
+  pushState(NewGameState::getSingletonPtr());
   return true;
 }
 

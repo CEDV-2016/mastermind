@@ -2,6 +2,7 @@
 
 #include "GameManager.h"
 #include "IntroState.h"
+#include "NewGameState.h"
 #include "PlayState.h"
 #include "PauseState.h"
 #include "CreditsState.h"
@@ -15,12 +16,14 @@ int main() {
   
   GameManager* game = new GameManager();
   IntroState* introState = new IntroState();
+  NewGameState* newGameState = new NewGameState();
   PlayState* playState = new PlayState();
   PauseState* pauseState = new PauseState();
   CreditsState* creditsState = new CreditsState();
   RankingState* rankingState = new RankingState();
 
   UNUSED_VARIABLE(introState);
+  UNUSED_VARIABLE(newGameState);
   UNUSED_VARIABLE(playState);
   UNUSED_VARIABLE(pauseState);
   UNUSED_VARIABLE(creditsState);
