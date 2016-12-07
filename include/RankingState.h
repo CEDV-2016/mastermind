@@ -7,6 +7,7 @@
 #include <RendererModules/Ogre/Renderer.h>
 
 #include "GameState.h"
+#include "RankingManager.h"
 
 class RankingState : public Ogre::Singleton<RankingState>, public GameState
 {
@@ -48,6 +49,7 @@ class RankingState : public Ogre::Singleton<RankingState>, public GameState
   OIS::Keyboard* _keyboard;
   OIS::Mouse* _mouse;
   CEGUI::Window* _ranking;
+  RankingManager* _rankingManager;
 
   bool _exitGame;
 };

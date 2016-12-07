@@ -1,9 +1,11 @@
 #include "RankingState.h"
+#include <sstream>
 
 template<> RankingState* Ogre::Singleton<RankingState>::msSingleton = 0;
 
 RankingState::RankingState() {
   _ranking = NULL;
+  _rankingManager = new RankingManager;
 }
 
 
@@ -114,7 +116,28 @@ void RankingState::createGUI(){
     CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_ranking);
     CEGUI::Window* backButton = _ranking->getChild("BackButton");
     backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&RankingState::back, this));
+
+    std::vector<std::string> ranking = _rankingManager->getRanking();
+    std::string name, score;
+    for (unsigned int i=0; i<ranking.size(); i+=2){
+       name = std::string("Name") + std::to_string(i/2+1) + std::string("Text");
+       score = std::string("Score") + std::to_string(i/2+1) + std::string("Text");
+       CEGUI::Window* name_record = _ranking->getChild(name);
+       name_record->setText(ranking[i]);
+       CEGUI::Window* score_record = _ranking->getChild(score);
+       score_record ->setText(ranking[i+1]);
+    }
   } else{
+    std::vector<std::string> ranking = _rankingManager->getRanking();
+    std::string name, score;
+    for (unsigned int i=0; i<ranking.size(); i+=2){
+       name = std::string("Name") + std::to_string(i/2+1) + std::string("Text");
+       score = std::string("Score") + std::to_string(i/2+1) + std::string("Text");
+       CEGUI::Window* name_record = _ranking->getChild(name);
+       name_record->setText(ranking[i]);
+       CEGUI::Window* score_record = _ranking->getChild(score);
+       score_record ->setText(ranking[i+1]);
+    }
     _ranking->show();
   }
 }
