@@ -37,14 +37,14 @@ void Game::generateRandomResult() {
 
   unsigned seed = std::time(0);
   std::srand(seed);
-  std::random_shuffle(&_all_colors[0], &_all_colors[ROW_SIZE]);
+  std::random_shuffle(&_all_colors[0], &_all_colors[sizeof(_all_colors)/sizeof(*_all_colors)]);
 
   for (int i = 0; i < ROW_SIZE; i++){
     _result->addBall(i, _all_colors[i]);
   }
 }
 
-Result Game::checkCurrentRow() {
+RowResult Game::checkCurrentRow() {
   int reds = 0, whites = 0;
 
   for (int i=0; i < ROW_SIZE; i++) {
@@ -54,7 +54,7 @@ Result Game::checkCurrentRow() {
         if (_result->getBallAt(i) == _rows[_currentRow]->getBallAt(j)) whites++;
       }
   }
-  Result r(reds, whites);
+  RowResult r(reds, whites);
   return r;
 }
 
@@ -90,6 +90,10 @@ std::string Game::toString(){
     stream << i << ". " <<  _rows[i]->toString() << msg <<  "\n";
   }
   return stream.str();
+}
+
+Row* Game::getResult() {
+  return _result;
 }
 
 void Game::saveRankings() {

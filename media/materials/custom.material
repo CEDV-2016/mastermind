@@ -1,4 +1,4 @@
-material Material.alfa
+material Material.semitransparent
 {
   receive_shadows on
   technique

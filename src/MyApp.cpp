@@ -89,7 +89,7 @@ void MyApp::createScene() {
   for (unsigned int i=0; i<ent_mastermind->getNumSubEntities(); i++) {
     Ogre::SubEntity *aux = ent_mastermind->getSubEntity(i);
     if (aux->getMaterialName() == "Row_0")
-      aux->setMaterialName("Material.alfa");
+      aux->setMaterialName("Material.semitransparent");
   }
 
   /*
