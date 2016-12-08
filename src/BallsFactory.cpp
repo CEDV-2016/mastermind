@@ -4,6 +4,7 @@ BallsFactory::BallsFactory(Ogre::SceneManager* sm)
 {
   _sceneManager = sm;
   _ball_counter = 0;
+  _black_ball_counter = 0;
 
   for (int i = 0; i < 7; i++) createMaterial(_all_colors[i]);
 }
@@ -46,14 +47,22 @@ void BallsFactory::createBoxAndBallSlew(std::string color_str, int x, int z, int
 
 Ogre::SceneNode* BallsFactory::createBall(std::string color) {
   std::stringstream ball_name;
+  int counter;
 
-  Ogre::Entity* ent_ball = _sceneManager->createEntity("Ball.mesh");
+  if (color == "BLACK") {
+    counter = _black_ball_counter;
+    _black_ball_counter++;
+  } else {
+    counter = _ball_counter;
+    _ball_counter++;
+  }
+
+  ball_name << "BallNode_" << counter << "_" << color;
+  Ogre::Entity* ent_ball = _sceneManager->createEntity(ball_name.str(), "Ball.mesh");
+
   ent_ball->setQueryFlags(BALL);
-
   ent_ball->getSubEntity(0)->setMaterialName(color);
 
-  ball_name << "BallNode_" << _ball_counter << "_" << color;
-  _ball_counter += 1;
   Ogre::SceneNode* node_ball = _sceneManager->createSceneNode(ball_name.str());
   node_ball->attachObject(ent_ball);
   _sceneManager->getRootSceneNode()->addChild(node_ball);
@@ -61,7 +70,7 @@ Ogre::SceneNode* BallsFactory::createBall(std::string color) {
   return node_ball;
 }
 
-void BallsFactory::createResultBalls(int row, int reds, int whites) {
+void BallsFactory::createCheckingBalls(int row, int reds, int whites) {
   double next_x = -0.34;
   double next_y = 1.03;
   double next_z = 1.13 - row*0.385;
@@ -87,7 +96,6 @@ void BallsFactory::createResultBalls(int row, int reds, int whites) {
     ball = createBall("WHITE");
     ball->scale(Ogre::Vector3(0.5, 0.5, 0.5));
     ball->setPosition(next_x, next_y, next_z);
-    std::cout << "Moviendo a " << next_x << " " << next_y << " " << next_z << "\n";
     placed_balls++;
 
     switch(placed_balls){

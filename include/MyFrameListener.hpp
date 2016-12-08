@@ -26,6 +26,8 @@ private:
 
 
   Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask);
+  void showResultingBalls();
+  void highlightCurrentRow();
 
 public:
   MyFrameListener(Ogre::RenderWindow* win, Ogre::Camera* cam, Ogre::OverlayManager *om, Ogre::SceneManager* sm, BallsFactory* bf);

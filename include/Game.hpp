@@ -15,10 +15,10 @@
 
 #define NUM_ROWS 6
 
-struct Result {
+struct RowResult {
   int reds;
   int whites;
-  Result(int r, int w): reds(r), whites(w) {};
+  RowResult(int r, int w): reds(r), whites(w) {};
 };
 
 class Game {
@@ -37,11 +37,12 @@ public:
   void addBall(int row, int column, std::string color);
   void generateRandomResult();
   bool currentRowFull();
-  Result checkCurrentRow();
+  RowResult checkCurrentRow();
   bool rowsLeft();
   int getCurrentRow();
   void addCurrentRow();
   std::string toString();
   void saveRankings();
   void readRankings();
+  Row* getResult();
 };

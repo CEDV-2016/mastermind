@@ -72,8 +72,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       * vuleva blanquecino.
       */
       if (mbleft) {
-
-        if (_selectedNode != NULL) _selectedNode->showBoundingBox(false);
         _selectedNode = NULL;
 
         setRayQuery(posx, posy, SLEW | BUTTON);
@@ -83,7 +81,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
         if (it != result.end()) {
           _selectedNode = it->movable->getParentSceneNode();
-          _selectedNode->showBoundingBox(true);
         }
 
         if (_selectedNode != NULL) {
@@ -125,7 +122,6 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         position = r.getPoint(it->distance);
         int y = position.y < 0.1 ? 0 : 1;
         _current_ball->setPosition(position.x, y, position.z);
-        // flags = it->movable->getParentSceneNode()->getAttachedObject(0)->getQueryFlags();
       }
 
       /*
@@ -133,10 +129,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       * (solo detecta bola). Mediante queries le decimos que solo mire los tiles.
       */
       if (mbleft) {
-        if (_selectedNode != NULL){
-          _selectedNode->showBoundingBox(false);
-          _selectedNode = NULL;
-        }
+        _selectedNode = NULL;
 
         r = setRayQuery(posx, posy, TILE);
         result = _raySceneQuery->execute();
@@ -144,8 +137,8 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
         if (it != result.end()) {
           _selectedNode = it->movable->getParentSceneNode();
-          _selectedNode->showBoundingBox(true);
         }
+
         if (_selectedNode != NULL) {
           std::string coordinates, col, row, color;
           int int_col, int_row;
@@ -171,49 +164,43 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
     case CHECKING:
     {
-      if (_game->currentRowFull())
+      if (!_game->currentRowFull()) /* ROW UNCOMPLETED */
       {
-        struct Result result = _game->checkCurrentRow();
-        if (result.reds == 4)
+        std::cout << "Aún no has completado la fila!\n";
+        _game->setState(SELECTING);
+      }
+      else
+      {
+        struct RowResult result = _game->checkCurrentRow();
+        _ballsFactory->createCheckingBalls(_game->getCurrentRow(), result.reds, result.whites);
+
+        if (result.reds == 4) /* WIN */
         {
           std::cout << "Has ganado!\n";
+          showResultingBalls();
           _game->setState(GAME_OVER);
         }
         else
         {
 
-          if (_game->getCurrentRow() > NUM_ROWS)
+          if (_game->getCurrentRow() >= NUM_ROWS-1) /* LOOSE */
           {
             std::cout << "Has perdido!\n";
+            showResultingBalls();
             _game->setState(GAME_OVER);
           }
-          else
+          else /* KEEP PLAYING */
           {
-            _ballsFactory->createResultBalls(_game->getCurrentRow(), result.reds, result.whites);
             _game->addCurrentRow();
 
-            std::cout << "Mala linea! Rojas " << result.reds << ", blancas " << result.whites << "\n";
+            std::cout << "Mala linea!" << "\n";
 
-            Ogre::Entity* ent_mastermind = _sceneManager->getEntity("Mastermind");
-            std::stringstream name, name_before;
-            name << "Row_" << _game->getCurrentRow();
-            name_before << "Row_" << _game->getCurrentRow() -1;
-            for (unsigned int i=0; i<ent_mastermind->getNumSubEntities(); i++) {
-              Ogre::SubEntity *aux = ent_mastermind->getSubEntity(i);
-              if (aux->getMaterialName() == "Material.alfa") aux->setMaterialName(name_before.str());
-              if (aux->getMaterialName() == name.str()) aux->setMaterialName("Material.alfa");
-            }
+            highlightCurrentRow();
 
             _game->setState(SELECTING);
           }
         }
       }
-      else
-      {
-        std::cout << "Aún no has completado la fila!\n";
-        _game->setState(SELECTING);
-      }
-
     } break;
 
     case GAME_OVER:
@@ -222,7 +209,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     break;
   } //switch
 
-  // Overlay management
+  /* Overlay management */
   Ogre::OverlayElement *oe;
   std::string msg, color;
   std::stringstream stream;
@@ -258,4 +245,27 @@ Ogre::Ray MyFrameListener::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
   _raySceneQuery->setQueryMask(mask == (Ogre::uint32)-1 ? all_masks : mask);
 
   return rayMouse;
+}
+
+void MyFrameListener::showResultingBalls() {
+  Ogre::Entity* ent_ball;
+  for (int i=0; i<ROW_SIZE; i++) {
+    std::stringstream name;
+    name << "BallNode_" << i << "_BLACK";
+    ent_ball = _sceneManager->getEntity(name.str());
+    if (ent_ball != NULL) ent_ball->getSubEntity(0)->setMaterialName(_game->getResult()->getBallAt(i));
+  }
+}
+
+void MyFrameListener::highlightCurrentRow(){
+  Ogre::Entity* ent_mastermind = _sceneManager->getEntity("Mastermind");
+  std::stringstream row_name, row_prev_name;
+  row_name << "Row_" << _game->getCurrentRow();
+  row_prev_name << "Row_" << _game->getCurrentRow()-1;
+
+  for (unsigned int i=0; i<ent_mastermind->getNumSubEntities(); i++) {
+    Ogre::SubEntity *aux = ent_mastermind->getSubEntity(i);
+    if (aux->getMaterialName() == "Material.semitransparent") aux->setMaterialName(row_prev_name.str());
+    if (aux->getMaterialName() == row_name.str()) aux->setMaterialName("Material.semitransparent");
+  }
 }
