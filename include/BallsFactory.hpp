@@ -17,4 +17,5 @@ public:
   ~BallsFactory();
   void createBoxAndBallSlew(std::string color, int x, int z, int y);
   Ogre::SceneNode* createBall(std::string color);
+  void createResultBalls(int row, int reds, int whites);
 };

@@ -12,6 +12,12 @@
 
 #define NUM_ROWS 6
 
+struct Result {
+  int reds;
+  int whites;
+  Result(int r, int w): reds(r), whites(w) {};
+};
+
 class Game {
 private:
   int _state, _points, _currentRow;
@@ -28,7 +34,7 @@ public:
   void addBall(int row, int column, std::string color);
   void generateRandomResult();
   bool currentRowFull();
-  bool checkCurrentRow();
+  Result checkCurrentRow();
   bool rowsLeft();
   int getCurrentRow();
   void addCurrentRow();

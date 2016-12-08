@@ -173,23 +173,26 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
     {
       if (_game->currentRowFull())
       {
-        if (_game->checkCurrentRow())
+        struct Result result = _game->checkCurrentRow();
+        if (result.reds == 4)
         {
           std::cout << "Has ganado!\n";
           _game->setState(GAME_OVER);
         }
         else
         {
-          _game->addCurrentRow();
 
-          if (_game->getCurrentRow() > NUM_ROWS-1)
+          if (_game->getCurrentRow() > NUM_ROWS)
           {
             std::cout << "Has perdido!\n";
             _game->setState(GAME_OVER);
           }
           else
           {
-            std::cout << "Mala linea, pero te quedan filas!\n";
+            _ballsFactory->createResultBalls(_game->getCurrentRow(), result.reds, result.whites);
+            _game->addCurrentRow();
+
+            std::cout << "Mala linea! Rojas " << result.reds << ", blancas " << result.whites << "\n";
 
             Ogre::Entity* ent_mastermind = _sceneManager->getEntity("Mastermind");
             std::stringstream name, name_before;

@@ -61,6 +61,46 @@ Ogre::SceneNode* BallsFactory::createBall(std::string color) {
   return node_ball;
 }
 
+void BallsFactory::createResultBalls(int row, int reds, int whites) {
+  double next_x = -0.34;
+  double next_y = 1.03;
+  double next_z = 1.13 - row*0.385;
+  int placed_balls = 0;
+
+  Ogre::SceneNode* ball;
+  for (int i=0; i<reds; i++) {
+    ball = createBall("RED");
+    ball->scale(Ogre::Vector3(0.5, 0.5, 0.5));
+    ball->setPosition(next_x, next_y, next_z);
+    placed_balls++;
+
+    switch(placed_balls){
+      case 1:
+      case 3: next_x = -0.24; break;
+
+      case 0:
+      case 2: next_x = -0.34; next_z += 0.1; break;
+    }
+  }
+
+  for (int i=0; i<whites; i++) {
+    ball = createBall("WHITE");
+    ball->scale(Ogre::Vector3(0.5, 0.5, 0.5));
+    ball->setPosition(next_x, next_y, next_z);
+    std::cout << "Moviendo a " << next_x << " " << next_y << " " << next_z << "\n";
+    placed_balls++;
+
+    switch(placed_balls){
+      case 1:
+      case 3: next_x = -0.24; break;
+
+      case 0:
+      case 2: next_x = -0.34; next_z += 0.1; break;
+    }
+  }
+
+}
+
 Ogre::MaterialPtr BallsFactory::createMaterial(std::string color)
 {
   Ogre::MaterialPtr mPtr = Ogre::MaterialManager::getSingleton().create

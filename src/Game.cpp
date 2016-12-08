@@ -40,8 +40,18 @@ void Game::generateRandomResult() {
   }
 }
 
-bool Game::checkCurrentRow() {
-  return _rows[_currentRow]->equals(_result);
+Result Game::checkCurrentRow() {
+  int reds = 0, whites = 0;
+
+  for (int i=0; i < ROW_SIZE; i++) {
+    if (_result->getBallAt(i) == _rows[_currentRow]->getBallAt(i)) reds++;
+    else
+      for (int j=0; j < ROW_SIZE; j++) {
+        if (_result->getBallAt(i) == _rows[_currentRow]->getBallAt(j)) whites++;
+      }
+  }
+  Result r(reds, whites);
+  return r;
 }
 
 bool Game::currentRowFull() {
