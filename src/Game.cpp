@@ -35,6 +35,10 @@ void Game::addBall (int row, int column, std::string color) {
 void Game::generateRandomResult() {
   _result = new Row();
 
+  unsigned seed = std::time(0);
+  std::srand(seed);
+  std::random_shuffle(&_all_colors[0], &_all_colors[ROW_SIZE]);
+
   for (int i = 0; i < ROW_SIZE; i++){
     _result->addBall(i, _all_colors[i]);
   }

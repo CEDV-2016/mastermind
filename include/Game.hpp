@@ -8,6 +8,9 @@
 #include <iostream>
 #include <fstream>
 #include <vector>
+#include <algorithm>
+#include <ctime>
+#include <cstdlib>
 #include "Row.hpp"
 
 #define NUM_ROWS 6
@@ -23,7 +26,7 @@ private:
   int _state, _points, _currentRow;
   Row *_rows[6];
   Row *_result;
-  const std::string _all_colors[6] {"RED", "BLUE", "GREEN", "PINK", "YELLOW", "WHITE"};
+  std::string _all_colors[6] {"RED", "BLUE", "GREEN", "PINK", "YELLOW", "WHITE"};
   std::string _player;
 
 public:
