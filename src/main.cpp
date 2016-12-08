@@ -7,6 +7,7 @@
 #include "PauseState.h"
 #include "CreditsState.h"
 #include "RankingState.h"
+#include "GameOverState.h"
 
 #include <iostream>
 
@@ -21,6 +22,7 @@ int main() {
   PauseState* pauseState = new PauseState();
   CreditsState* creditsState = new CreditsState();
   RankingState* rankingState = new RankingState();
+  GameOverState* gameOverState = new GameOverState();
 
   UNUSED_VARIABLE(introState);
   UNUSED_VARIABLE(newGameState);
@@ -28,6 +30,7 @@ int main() {
   UNUSED_VARIABLE(pauseState);
   UNUSED_VARIABLE(creditsState);
   UNUSED_VARIABLE(rankingState);
+  UNUSED_VARIABLE(gameOverState);
     
   try
     {
