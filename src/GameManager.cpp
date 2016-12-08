@@ -147,7 +147,7 @@ GameManager::configure ()
     }
   }
   
-  _renderWindow = _root->initialise(true, "Game State Example");
+  _renderWindow = _root->initialise(true, "Mastermind");
   
   Ogre::ResourceGroupManager::getSingleton().initialiseAllResourceGroups();
   

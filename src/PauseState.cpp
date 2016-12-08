@@ -1,3 +1,4 @@
+#include "IntroState.h"
 #include "PauseState.h"
 
 template<> PauseState* Ogre::Singleton<PauseState>::msSingleton = 0;
@@ -10,9 +11,7 @@ PauseState::enter ()
   // Se recupera el gestor de escena y la cámara.
   _sceneMgr = _root->getSceneManager("SceneManager");
   _camera = _sceneMgr->getCamera("MainCamera");
-  _viewport = _root->getAutoCreatedWindow()->getViewport(0);
-  // Nuevo background colour.
-  _viewport->setBackgroundColour(Ogre::ColourValue(0.0, 1.0, 0.0));
+  createGUI();
 
   _exitGame = false;
 }
@@ -93,4 +92,36 @@ PauseState::getSingleton ()
 { 
   assert(msSingleton);
   return *msSingleton;
+}
+
+void PauseState::createGUI()
+{
+  if(_pause == NULL){
+    //Config Window
+    _pause = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("pause.layout");
+    CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_pause);
+    CEGUI::Window* resumeButton = _pause->getChild("ResumeButton");
+    resumeButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&PauseState::back, 
+						      this));
+    CEGUI::Window* exitButton = _pause->getChild("ExitPauseButton");
+    exitButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&PauseState::exitPause, 
+						      this));
+  } else{
+    _pause->show();
+  }
+}
+
+bool PauseState::back(const CEGUI::EventArgs &e)
+{
+  _pause->hide();
+  popState();
+  return true;
+}
+
+bool PauseState::exitPause(const CEGUI::EventArgs &e)
+{
+  _exitGame = true;
+  return true;
 }

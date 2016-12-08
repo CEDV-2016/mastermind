@@ -40,8 +40,6 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
 
   void setName(std::string name);
 
-  
-
  protected:
   Ogre::Root* _root;
   Ogre::SceneManager* _sceneMgr;
