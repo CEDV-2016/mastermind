@@ -121,7 +121,18 @@ void PlayState::createGUI()
     //Config Window
     _game = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("game.layout");
     CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_game);
+    _nameView = _game->getChild("NameText");
+    _pointsView = _game->getChild("PointsText");
+    _nameView->setText(_name);
+    _pointsView->setText("6000");
   } else{
+    _nameView->setText(_name);
+    _pointsView->setText("6000");
     _game->show();
   }
+}
+
+void PlayState::setName(std::string name)
+{
+  _name = name;
 }

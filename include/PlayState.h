@@ -5,6 +5,7 @@
 #include <OIS/OIS.h>
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
+#include <iostream>
 #include "BallsFactory.hpp"
 #include "Colors.hpp"
 
@@ -37,14 +38,19 @@ class PlayState : public Ogre::Singleton<PlayState>, public GameState
   void createScene();
   void createGUI();
 
+  void setName(std::string name);
+
+  
+
  protected:
   Ogre::Root* _root;
   Ogre::SceneManager* _sceneMgr;
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
   CEGUI::OgreRenderer* renderer; 
-  CEGUI::Window* _game;
+  CEGUI::Window* _game, *_nameView, *_pointsView;
   BallsFactory *_ballsFactory;
+  std::string _name;
 
   bool _exitGame;
 };

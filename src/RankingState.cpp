@@ -145,4 +145,5 @@ void RankingState::createGUI(){
 bool RankingState::back(const CEGUI::EventArgs &e)
 {
   popState();
+  return true;
 }

@@ -52,7 +52,7 @@ class NewGameState : public Ogre::Singleton<NewGameState>, public GameState
   OIS::InputManager* _inputManager;
   OIS::Keyboard* _keyboard;
   OIS::Mouse* _mouse;
-  CEGUI::Window* _newgame;
+  CEGUI::Window* _newgame, *_nameText;
 
   bool _exitGame;
 };

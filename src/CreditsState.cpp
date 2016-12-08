@@ -122,4 +122,5 @@ void CreditsState::createGUI(){
 bool CreditsState::back(const CEGUI::EventArgs &e)
 {
   popState();
+  return true;
 }
