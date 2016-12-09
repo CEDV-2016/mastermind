@@ -10,7 +10,7 @@ class Row
 {
 private:
   std::string _balls[ROW_SIZE];
-
+  
 public:
   Row();
   ~Row();

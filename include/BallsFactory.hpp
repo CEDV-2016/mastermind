@@ -1,6 +1,7 @@
 #pragma once
 
 #include <Ogre.h>
+
 #include "Flags.hpp"
 
 class BallsFactory

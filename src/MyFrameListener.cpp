@@ -38,7 +38,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   // Ogre::Real tSpeed = 20.0;
   Ogre::Real deltaT = evt.timeSinceLastFrame;
   int fps = 1.0 / deltaT;
-  bool mbleft = false;
+  bool _left_click = false;
 
   _keyboard->capture();
   if(_keyboard->isKeyDown(OIS::KC_ESCAPE)) return false;
@@ -56,7 +56,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
   _mouse->capture();
   int posx = _mouse->getMouseState().X.abs;   // Posicion del puntero
   int posy = _mouse->getMouseState().Y.abs;   //  en pixeles.
-  mbleft = _mouse->getMouseState().buttonDown(OIS::MB_Left); //Click izquierdo
+  _left_click = _mouse->getMouseState().buttonDown(OIS::MB_Left); //Click izquierdo
 
   switch(_game->getState())
   {
@@ -71,7 +71,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       * Molaría hacer que al pasar el ratón por encima de un slew el color se
       * vuleva blanquecino.
       */
-      if (mbleft) {
+      if (_left_click) {
         _selectedNode = NULL;
 
         setRayQuery(posx, posy, SLEW | BUTTON);
@@ -84,7 +84,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
         }
 
         if (_selectedNode != NULL) {
-          switch (_selectedNode->getAttachedObject(0)->getQueryFlags()){
+          switch (_selectedNode->getAttachedObject(0)->getQueryFlags()) {
 
             case SLEW:
             {
@@ -128,7 +128,7 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
       * Como la bola está debajo del ratón no se puede pinchar en el tablero
       * (solo detecta bola). Mediante queries le decimos que solo mire los tiles.
       */
-      if (mbleft) {
+      if (_left_click) {
         _selectedNode = NULL;
 
         r = setRayQuery(posx, posy, TILE);

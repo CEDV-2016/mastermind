@@ -9,7 +9,8 @@
 #include "BallsFactory.hpp"
 #include "Game.hpp"
 
-class MyFrameListener : public Ogre::FrameListener {
+class MyFrameListener : public Ogre::FrameListener
+{
 private:
   OIS::InputManager* _inputManager;
   OIS::Keyboard* _keyboard;
@@ -23,7 +24,6 @@ private:
   BallsFactory *_ballsFactory;
   Ogre::SceneNode* _current_ball;
   Game * _game;
-
 
   Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask);
   void showResultingBalls();

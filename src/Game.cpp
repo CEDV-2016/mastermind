@@ -1,13 +1,12 @@
 #include "Game.hpp"
 
-Game::Game(std::string name) {
+Game::Game() {
   for (int i = 0; i < NUM_ROWS; i++) {
     _rows[i] = new Row();
     _balls_entity[i] = new Row();
   }
   generateRandomResult();
   _points = 6000;
-  _player = name;
   _currentRow = 0;
   _state = SELECTING;
 }
@@ -18,6 +17,10 @@ Game::~Game () {
     delete _balls_entity[i];
   }
   delete _result;
+}
+
+void Game::setPlayerName(std::string) {
+  _player = name;
 }
 
 int Game::getState() {

@@ -5,23 +5,26 @@
 #define CHECKING  3
 #define GAME_OVER 4
 
+#define NUM_ROWS 6
+
 #include <iostream>
 #include <fstream>
 #include <vector>
 #include <algorithm>
 #include <ctime>
 #include <cstdlib>
+
 #include "Row.hpp"
 
-#define NUM_ROWS 6
-
-struct RowResult {
+struct RowResult
+{
   int reds;
   int whites;
   RowResult(int r, int w): reds(r), whites(w) {};
 };
 
-class Game {
+class Game
+{
 private:
   int _state, _points, _currentRow;
   Row *_rows[6];
@@ -31,9 +34,10 @@ private:
   std::string _player;
 
 public:
-  Game(std::string name);
+  Game();
   ~Game ();
   int getState ();
+  void setPlayerName(std::string);
   void setState (int state);
   void addBall(int row, int column, std::string color);
   void generateRandomResult();
