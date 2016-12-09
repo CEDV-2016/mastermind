@@ -27,6 +27,7 @@ private:
   Row *_rows[6];
   Row *_result;
   std::string _all_colors[6] {"RED", "BLUE", "GREEN", "PINK", "YELLOW", "WHITE"};
+  Row *_balls_entity[6];
   std::string _player;
 
 public:
@@ -45,4 +46,6 @@ public:
   void saveRankings();
   void readRankings();
   Row* getResult();
+  std::string getBallEntityNameAt(int col, int row);
+  void addBallEntityNameAt(int col, int row, std::string name);
 };

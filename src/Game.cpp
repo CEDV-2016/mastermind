@@ -3,6 +3,7 @@
 Game::Game(std::string name) {
   for (int i = 0; i < NUM_ROWS; i++) {
     _rows[i] = new Row();
+    _balls_entity[i] = new Row();
   }
   generateRandomResult();
   _points = 6000;
@@ -14,6 +15,7 @@ Game::Game(std::string name) {
 Game::~Game () {
   for (int i = 0; i < NUM_ROWS; i++){
     delete _rows[i];
+    delete _balls_entity[i];
   }
   delete _result;
 }
@@ -94,6 +96,14 @@ std::string Game::toString(){
 
 Row* Game::getResult() {
   return _result;
+}
+
+std::string Game::getBallEntityNameAt(int col, int row) {
+  return _balls_entity[row]->getBallAt(col);
+}
+
+void Game::addBallEntityNameAt(int col, int row, std::string name) {
+  _balls_entity[row]->addBall(col, name);
 }
 
 void Game::saveRankings() {

@@ -154,6 +154,14 @@ bool MyFrameListener::frameStarted(const Ogre::FrameEvent& evt) {
 
           if (_game->getCurrentRow() == int_row) {
             std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
+
+            /*
+            * Si ya había una bola en esa posición la borramos
+            */
+            std::string ball_entity = _game->getBallEntityNameAt(int_row, int_col);
+            if (ball_entity != "-1") _sceneManager->destroyEntity(ball_entity);
+            _game->addBallEntityNameAt(int_row, int_col, _current_ball->getName());
+
             _game->addBall(int_row, int_col, color);
             _current_ball->setPosition(_selectedNode->getPosition());
             _game->setState(SELECTING);
