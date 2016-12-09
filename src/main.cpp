@@ -1,6 +1,7 @@
 #define UNUSED_VARIABLE(x) (void)x
 
 #include "GameManager.h"
+#include "MainState.h"
 #include "IntroState.h"
 #include "NewGameState.h"
 #include "PlayState.h"
@@ -16,6 +17,7 @@ using namespace std;
 int main() {
   
   GameManager* game = new GameManager();
+  MainState* mainState = new MainState();
   IntroState* introState = new IntroState();
   NewGameState* newGameState = new NewGameState();
   PlayState* playState = new PlayState();
@@ -24,6 +26,7 @@ int main() {
   RankingState* rankingState = new RankingState();
   GameOverState* gameOverState = new GameOverState();
 
+  UNUSED_VARIABLE(mainState);
   UNUSED_VARIABLE(introState);
   UNUSED_VARIABLE(newGameState);
   UNUSED_VARIABLE(playState);
@@ -35,7 +38,7 @@ int main() {
   try
     {
       // Inicializa el juego y transición al primer estado.
-      game->start(IntroState::getSingletonPtr());
+      game->start(MainState::getSingletonPtr());
     }
   catch (Ogre::Exception& e)
     {

@@ -25,6 +25,7 @@ PlayState::enter ()
 void
 PlayState::exit ()
 {
+  _game->hide();
   _sceneMgr->clearScene();
   _root->getAutoCreatedWindow()->removeAllViewports();
 }
@@ -32,11 +33,13 @@ PlayState::exit ()
 void
 PlayState::pause()
 {
+  _game->hide();
 }
 
 void
 PlayState::resume()
 {
+  _game->show();
 }
 
 bool

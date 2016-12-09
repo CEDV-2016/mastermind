@@ -24,7 +24,7 @@
         <Window type="Vanilla/Button" name="ExitPauseButton" >
             <Property name="Area" value="{{0,-1},{0.268011,-5},{-0.00106377,299},{0.268011,45}}" />
             <Property name="Font" value="Jura-18" />
-            <Property name="Text" value="Salir" />
+            <Property name="Text" value="Volver al menú" />
             <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
             <Property name="VerticalAlignment" value="Centre" />
             <Property name="HorizontalAlignment" value="Centre" />

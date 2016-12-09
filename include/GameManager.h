@@ -25,6 +25,7 @@ class GameManager : public Ogre::FrameListener, public Ogre::Singleton<GameManag
   void changeState (GameState* state);
   void pushState (GameState* state);
   void popState ();
+  void restart (GameState* state);
   
   // Heredados de Ogre::Singleton.
   static GameManager& getSingleton ();

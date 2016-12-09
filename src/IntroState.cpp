@@ -11,22 +11,9 @@ IntroState::enter ()
 {
   _root = Ogre::Root::getSingletonPtr();
 
-  _sceneManager = _root->createSceneManager(Ogre::ST_INTERIOR, "SceneManager");
-  _sceneManager->setAmbientLight(Ogre::ColourValue(1, 1, 1));
-  _sceneManager->addRenderQueueListener(new Ogre::OverlaySystem());
-
-  _camera = _sceneManager->createCamera("MainCamera");
-  _camera->setPosition(Ogre::Vector3(0, 6, 2)); 
-  _camera->lookAt(Ogre::Vector3(0, 0, 0));      
-  _camera->setNearClipDistance(0.1);
-  _camera->setFarClipDistance(1000);
-  _camera->setFOVy(Ogre::Degree(40));
-
+  _sceneManager = _root->getSceneManager("SceneManager");
+  _camera = _sceneManager->getCamera("MainCamera");
   _viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
-  double width = _viewport->getActualWidth();
-  double height = _viewport->getActualHeight();
-  _camera->setAspectRatio(width / height);
-
   createScene();
   createGUI();
 
@@ -36,6 +23,7 @@ IntroState::enter ()
 void
 IntroState::exit()
 {
+  _intro->hide();
   _sceneManager->clearScene();
   _root->getAutoCreatedWindow()->removeAllViewports();
 }
@@ -43,6 +31,7 @@ IntroState::exit()
 void
 IntroState::pause ()
 {
+  _intro->hide();
 }
 
 void
@@ -174,21 +163,18 @@ void IntroState::createGUI()
 
 bool IntroState::newGame(const CEGUI::EventArgs &e)
 {
-  _intro->hide();
   pushState(NewGameState::getSingletonPtr());
   return true;
 }
 
 bool IntroState::navigateToCredits(const CEGUI::EventArgs &e)
 {
-  _intro->hide();
   pushState(CreditsState::getSingletonPtr());
   return true;
 }
 
 bool IntroState::navigateToRanking(const CEGUI::EventArgs &e)
 {
-  _intro->hide();
   pushState(RankingState::getSingletonPtr());
   return true;
 }

@@ -10,7 +10,7 @@
 class GameOverState : public Ogre::Singleton<GameOverState>, public GameState
 {
  public:
-  GameOverState() {}
+  GameOverState();
 
   void enter ();
   void exit ();
@@ -33,6 +33,7 @@ class GameOverState : public Ogre::Singleton<GameOverState>, public GameState
 
   void createGUI();
 
+  bool restartGame(const CEGUI::EventArgs &e);
   bool finish(const CEGUI::EventArgs &e);
 
   void setPoints(std::string name, std::string points);

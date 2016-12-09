@@ -67,6 +67,9 @@ class GameState {
   void popState () {
     GameManager::getSingletonPtr()->popState();
   }
+  void restart (GameState* state) {
+    GameManager::getSingletonPtr()->changeState(state);
+  }
 
 };
 

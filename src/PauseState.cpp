@@ -19,6 +19,7 @@ PauseState::enter ()
 void
 PauseState::exit ()
 {
+  _pause->hide();
 }
 
 void
@@ -115,13 +116,13 @@ void PauseState::createGUI()
 
 bool PauseState::back(const CEGUI::EventArgs &e)
 {
-  _pause->hide();
   popState();
   return true;
 }
 
 bool PauseState::exitPause(const CEGUI::EventArgs &e)
 {
-  _exitGame = true;
+  popState();
+  restart(IntroState::getSingletonPtr());
   return true;
 }

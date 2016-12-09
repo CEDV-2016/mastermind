@@ -24,6 +24,7 @@ NewGameState::enter ()
 void
 NewGameState::exit ()
 {
+  _newgame->hide();
 }
 
 void
@@ -107,13 +108,13 @@ void NewGameState::createGUI(){
     backButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&NewGameState::back, this));
     _nameText = _newgame->getChild("Editbox");
   } else{
+    _nameText->setText("");
     _newgame->show();
   }
 }
 
 bool NewGameState::newGame(const CEGUI::EventArgs &e)
 {
-  _newgame->hide();
   PlayState* playState = PlayState::getSingletonPtr();
   playState->setName(_nameText->getText().c_str());
   changeState(playState);
@@ -122,7 +123,6 @@ bool NewGameState::newGame(const CEGUI::EventArgs &e)
 
 bool NewGameState::back(const CEGUI::EventArgs &e)
 {
-  _newgame->hide();
   popState();
   return true;
 }

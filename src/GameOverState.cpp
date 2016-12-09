@@ -1,6 +1,12 @@
+#include "IntroState.h"
+#include "PlayState.h"
 #include "GameOverState.h"
 
 template<> GameOverState* Ogre::Singleton<GameOverState>::msSingleton = 0;
+
+GameOverState::GameOverState() {
+  _gameover = NULL;
+}
 
 void
 GameOverState::enter ()
@@ -18,11 +24,13 @@ GameOverState::enter ()
 void
 GameOverState::exit ()
 {
+  _gameover->hide();
 }
 
 void
 GameOverState::pause ()
 {
+  _gameover->hide();
 }
 
 void
@@ -99,7 +107,11 @@ void GameOverState::createGUI()
     //Config Window
     _gameover = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("gameover.layout");
     CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_gameover);
-    CEGUI::Window* resumeButton = _gameover->getChild("ResumeButton");
+    CEGUI::Window* restartButton = _gameover->getChild("RestartButton");
+    restartButton->subscribeEvent(CEGUI::PushButton::EventClicked,
+			     CEGUI::Event::Subscriber(&GameOverState::restartGame, 
+						      this));
+    CEGUI::Window* resumeButton = _gameover->getChild("FinishButton");
     resumeButton->subscribeEvent(CEGUI::PushButton::EventClicked,
 			     CEGUI::Event::Subscriber(&GameOverState::finish, 
 						      this));
@@ -114,9 +126,17 @@ void GameOverState::createGUI()
   }
 }
 
+bool GameOverState::restartGame(const CEGUI::EventArgs &e)
+{
+  popState();
+  restart(IntroState::getSingletonPtr());
+  return true;
+}
+
 bool GameOverState::finish(const CEGUI::EventArgs &e)
 {
-  _exitGame = true;
+  popState();
+  restart(IntroState::getSingletonPtr());
   return true;
 }
 
