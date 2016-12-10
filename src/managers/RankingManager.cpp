@@ -15,22 +15,26 @@ bool RankingManager::checkRanking (int turns) {
 }
 
 void RankingManager::setRanking (std::string name, int turns) {
-  int position = 5;
-  int i;
+  this->getRanking();
+  int position = 6;
+  int i, num;
   for (i = 5; i > 0; i--) {
-    if (turns > stoi(_rankings[i * 2 - 1])) {
+    num = std::stoi(_rankings[i * 2 - 1]);
+    if (turns < num) {
       break;
     }
     position--;
   }
-  for (i = 5; i > position; i--) {
-    _rankings[i * 2 - 1] = _rankings[i * 2 - 3];
-    _rankings[i * 2 - 2] = _rankings[i * 2 - 4];
-  }
-  _rankings[position * 2 - 2] = name;
-  _rankings[position * 2 - 1] = std::to_string(turns);
+  if (position < 6){
+    for (i = 5; i > position; i--) {
+      _rankings[i * 2 - 1] = _rankings[i * 2 - 3];
+      _rankings[i * 2 - 2] = _rankings[i * 2 - 4];
+    }
+    _rankings[position * 2 - 2] = name;
+    _rankings[position * 2 - 1] = std::to_string(turns);
 
-  saveRankings();
+    saveRankings();
+  }
 }
 
 void RankingManager::saveRankings () {

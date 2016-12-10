@@ -213,9 +213,10 @@ PlayState::frameEnded
 
     case GAME_OVER:
     {
-      int turn = _game->getCurrentRow(); //6 - _game->getPoints()/1000;
-      _rankingManager->setRanking(_game->getPlayerName(), turn);
-      changeState(GameOverState::getSingletonPtr());
+      _rankingManager->setRanking(_game->getPlayerName(), _game->getPoints());
+      GameOverState* gameOverState = GameOverState::getSingletonPtr();
+      gameOverState->setPoints(_game->getPlayerName(), std::to_string(_game->getPoints()));
+      pushState(gameOverState);
     }
     break;
   } //switch

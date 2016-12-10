@@ -5,6 +5,7 @@
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
 #include <iostream>
+#include <string>
 
 #include "Game.hpp"
 #include "Flags.hpp"

@@ -126,22 +126,22 @@ void GameOverState::createGUI()
           }
         }
 
-        bool GameOverState::restartGame(const CEGUI::EventArgs &e)
-        {
-          popState();
-          restart(IntroState::getSingletonPtr());
-          return true;
-        }
+bool GameOverState::restartGame(const CEGUI::EventArgs &e)
+{
+  this->popState();
+  restart(IntroState::getSingletonPtr());
+  return true;
+}
 
-        bool GameOverState::finish(const CEGUI::EventArgs &e)
-        {
-          popState();
-          restart(IntroState::getSingletonPtr());
-          return true;
-        }
+bool GameOverState::finish(const CEGUI::EventArgs &e)
+{
+  this->popState();
+  restart(IntroState::getSingletonPtr());
+  return true;
+}
 
-        void GameOverState::setPoints(std::string name, std::string points)
-        {
-          _name = name;
-          _points = points;
-        }
+void GameOverState::setPoints(std::string name, std::string points)
+{
+  _name = name;
+  _points = points;
+}
