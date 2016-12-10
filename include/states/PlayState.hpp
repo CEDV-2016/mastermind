@@ -6,6 +6,7 @@
 #include <RendererModules/Ogre/Renderer.h>
 #include <iostream>
 
+#include "Game.hpp"
 #include "Flags.hpp"
 #include "GameState.hpp"
 #include "BallsFactory.hpp"
@@ -43,15 +44,18 @@ public:
   Ogre::Ray setRayQuery(int posx, int posy, Ogre::uint32 mask);
 
 protected:
+  CEGUI::OgreRenderer* renderer;
+  CEGUI::Window* _gameGUI, *_nameView, *_pointsView;
   Ogre::Root* _root;
   Ogre::SceneManager* _sceneMgr;
   Ogre::Viewport* _viewport;
   Ogre::Camera* _camera;
-  CEGUI::OgreRenderer* renderer;
-  CEGUI::Window* _gameGUI, *_nameView, *_pointsView;
+  Ogre::RaySceneQuery *_raySceneQuery;
+  Ogre::SceneNode *_selectedNode;
   BallsFactory *_ballsFactory;
-  Ogre::SceneNode* _current_ball;
   Game * _game;
+  Ogre::SceneNode* _current_ball;
 
   bool _exitGame, _left_click;
+  int _mouse_x, _mouse_y;
 };

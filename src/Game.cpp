@@ -19,8 +19,12 @@ Game::~Game () {
   delete _result;
 }
 
-void Game::setPlayerName(std::string) {
+void Game::setPlayerName(std::string name) {
   _player = name;
+}
+
+std::string Game::getPlayerName() {
+  return _player;
 }
 
 int Game::getState() {
@@ -31,6 +35,10 @@ void Game::setState (int state) {
   _state = state;
 
   if (state == GAME_OVER) saveRankings();
+}
+
+int Game::getPoints() {
+  return _points;
 }
 
 void Game::addBall (int row, int column, std::string color) {
@@ -80,7 +88,6 @@ int Game::getCurrentRow() {
 
 void Game::addCurrentRow() {
   _currentRow++;
-
   _points -= 1000;
 }
 

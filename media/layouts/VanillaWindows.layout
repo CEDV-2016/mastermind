@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/StaticImage" name="root" >
+        <Property name="Area" value="{{0,0},{0,0},{1,0},{1,0}}" />
+        <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        <Property name="FrameEnabled" value="false" />
+        <Property name="BackgroundEnabled" value="false" />
+        <Window type="Vanilla/FrameWindow" name="NewNode" >
+            <Property name="Area" value="{{0.6,-316},{0.1,-18},{0.9,-316},{0.6,-97}}" />
+            <Property name="Text" value="New Node" />
+            <Property name="MaxSize" value="{{0.8,0},{0.8,0}}" />
+            <Property name="MinSize" value="{{0.2,0},{0.2,0}}" />
+            <Property name="CloseButtonEnabled" value="false" />
+            <Window type="Vanilla/Listbox" name="Listbox" >
+                <Property name="Area" value="{{0,7},{0,7},{1,-7},{1,-73}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            </Window>
+            <Window type="Vanilla/StaticText" name="label1" >
+                <Property name="Area" value="{{0,7},{0,-45},{0,67},{0,-15}}" />
+                <Property name="Text" value="Name:" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="FrameEnabled" value="false" />
+                <Property name="BackgroundEnabled" value="false" />
+                <Property name="VerticalAlignment" value="Bottom" />
+                <Property name="HorzScrollPageSize" value="60" />
+                <Property name="VertScrollPageSize" value="30" />
+                <Property name="HorzScrollDocumentSize" value="39" />
+                <Property name="VertScrollDocumentSize" value="13.3428" />
+            </Window>
+            <Window type="Vanilla/Editbox" name="Editbox" >
+                <Property name="Area" value="{{0,-7},{0,-40},{1,-81},{0,-10}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="VerticalAlignment" value="Bottom" />
+                <Property name="HorizontalAlignment" value="Right" />
+            </Window>
+            <Window type="Vanilla/Button" name="Okay" >
+                <Property name="Area" value="{{0,7},{0,-7},{0,67},{0,23}}" />
+                <Property name="Text" value="Okay" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="VerticalAlignment" value="Bottom" />
+            </Window>
+            <Window type="Vanilla/Button" name="Cancel" >
+                <Property name="Area" value="{{0,-7},{0,-7},{0,53},{0,23}}" />
+                <Property name="Text" value="Cancel" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="VerticalAlignment" value="Bottom" />
+                <Property name="HorizontalAlignment" value="Right" />
+            </Window>
+        </Window>
+        <Window type="Vanilla/FrameWindow" name="NamespaceViewer" >
+            <Property name="Area" value="{{0.25,0},{0.48,0},{0.75,0},{0.98,0}}" />
+            <Property name="Text" value="Namespace Viewer" />
+            <Property name="MaxSize" value="{{0.8,0},{0.8,0}}" />
+            <Property name="MinSize" value="{{0.2,0},{0.2,0}}" />
+            <Property name="CloseButtonEnabled" value="false" />
+            <Window type="Vanilla/StaticText" name="area1" >
+                <Property name="Area" value="{{0,7},{0,7},{1,-7},{0,100}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="HorzScrollPageSize" value="600" />
+                <Property name="VertScrollPageSize" value="81" />
+            </Window>
+            <Window type="Vanilla/Listbox" name="area2" >
+                <Property name="Area" value="{{0,7},{0,-7},{1,-7},{1,-117}}" />
+                <Property name="MaxSize" value="{{1,0},{1,0}}" />
+                <Property name="VerticalAlignment" value="Bottom" />
+            </Window>
+        </Window>
+    </Window>
+</GUILayout>

@@ -147,7 +147,8 @@ GameManager::loadResources ()
     Ogre::ConfigFile::SettingsMultiMap *settings = sI.getNext();
     Ogre::ConfigFile::SettingsMultiMap::iterator i;
     for (i = settings->begin(); i != settings->end(); ++i) {
-      typestr = i->first;    datastr = i->second;
+      typestr = i->first;
+      datastr = i->second;
       Ogre::ResourceGroupManager::getSingleton().addResourceLocation
             (datastr, typestr, sectionstr);
     }
@@ -181,6 +182,11 @@ GameManager::getSingleton ()
 {
   assert(msSingleton);
   return *msSingleton;
+}
+
+Ogre::RenderWindow*
+GameManager::getRenderWindow(){
+  return _renderWindow;
 }
 
 // Las siguientes funciones miembro delegan

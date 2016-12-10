@@ -1,3 +1,4 @@
+#include "GameManager.hpp"
 #include "PlayState.hpp"
 #include "PauseState.hpp"
 #include "BallsFactory.hpp"
@@ -59,8 +60,6 @@ bool
 PlayState::frameEnded
 (const Ogre::FrameEvent& evt)
 {
-  if (_exitGame) return false;
-
   switch(_game->getState())
   {
 
@@ -77,7 +76,7 @@ PlayState::frameEnded
       if (_left_click) {
         _selectedNode = NULL;
 
-        setRayQuery(posx, posy, SLEW | BUTTON);
+        setRayQuery(_mouse_x, _mouse_y, SLEW | BUTTON);
         Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
         Ogre::RaySceneQueryResult::iterator it;
         it = result.begin();
@@ -115,7 +114,7 @@ PlayState::frameEnded
     */
     case MOVING:
     {
-      Ogre::Ray r = setRayQuery(posx, posy, -1);
+      Ogre::Ray r = setRayQuery(_mouse_x, _mouse_y, -1);
       Ogre::RaySceneQueryResult &result = _raySceneQuery->execute();
       Ogre::RaySceneQueryResult::iterator it;
       Ogre::Vector3 position;
@@ -134,7 +133,7 @@ PlayState::frameEnded
       if (_left_click) {
         _selectedNode = NULL;
 
-        r = setRayQuery(posx, posy, TILE);
+        r = setRayQuery(_mouse_x, _mouse_y, TILE);
         result = _raySceneQuery->execute();
         it = result.begin();
 
@@ -162,7 +161,7 @@ PlayState::frameEnded
             * Si ya había una bola en esa posición la borramos
             */
             std::string ball_entity = _game->getBallEntityNameAt(int_row, int_col);
-            if (ball_entity != "-1") _sceneManager->destroyEntity(ball_entity);
+            if (ball_entity != "-1") _sceneMgr->destroyEntity(ball_entity);
             _game->addBallEntityNameAt(int_row, int_col, _current_ball->getName());
 
             _game->addBall(int_row, int_col, color);
@@ -216,35 +215,37 @@ PlayState::frameEnded
 
     case GAME_OVER:
     {
+      //CAMBIAR AL ESTADO GAMEOVERSTATE
     }
     break;
   } //switch
 
   _left_click = false;
-  return true;
+
+  return !_exitGame;
 }
 
 void
 PlayState::keyPressed
 (const OIS::KeyEvent &e)
 {
-  if (e.key == OIS::KC_P) pushState(PauseState::getSingletonPtr());
-  if(_e.key == OIS::KC_O) std::cout << _game->toString() << std::endl;
 }
 
 void
 PlayState::keyReleased
 (const OIS::KeyEvent &e)
 {
-  if (e.key == OIS::KC_ESCAPE) {
-    _exitGame = true;
-  }
+  if (e.key == OIS::KC_ESCAPE) _exitGame = true;
+  if (e.key == OIS::KC_P) pushState(PauseState::getSingletonPtr());
+  if (e.key == OIS::KC_O) std::cout << _game->toString() << std::endl;
 }
 
 void
 PlayState::mouseMoved
 (const OIS::MouseEvent &e)
 {
+  _mouse_x = e.state.X.abs;
+  _mouse_y = e.state.Y.abs;
 }
 
 void
@@ -288,13 +289,13 @@ void PlayState::createScene() {
   for (int row=0; row < NUM_ROWS; row++) {
     for (int col=0; col < ROW_SIZE; col++) {
       std::stringstream tile_name;
-      ent_tile = _sceneManager->createEntity("Tile.mesh");
+      ent_tile = _sceneMgr->createEntity("Tile.mesh");
       ent_tile->setQueryFlags(TILE);
       tile_name << "Tile_" << row << col;
-      node_tile = _sceneManager->createSceneNode(tile_name.str());
+      node_tile = _sceneMgr->createSceneNode(tile_name.str());
       node_tile->attachObject(ent_tile);
       node_tile->translate(-1.62 + (double)col/3.3, 1.05, 1.19 - (double)row/2.6);
-      _sceneManager->getRootSceneNode()->addChild(node_tile);
+      _sceneMgr->getRootSceneNode()->addChild(node_tile);
     }
   }
 
@@ -315,19 +316,20 @@ void PlayState::createGUI()
     CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_gameGUI);
     _nameView = _gameGUI->getChild("NameText");
     _pointsView = _gameGUI->getChild("PointsText");
-    _nameView->setText(_name);
-    _pointsView->setText("6000");
+    _nameView->setText(_game->getPlayerName());
+    _pointsView->setText(std::to_string(_game->getPoints()));
   } else{
-    _nameView->setText(_name);
-    _pointsView->setText("6000");
+    _nameView->setText(_game->getPlayerName());
+    _pointsView->setText(std::to_string(_game->getPoints()));
     _gameGUI->show();
   }
 }
 
 Ogre::Ray PlayState::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
+  Ogre::RenderWindow* win =  GameManager::getSingletonPtr()->getRenderWindow();
   Ogre::uint32 all_masks = BOARD | GROUND | TILE | BOX | SLEW | BALL | BUTTON;
 
-  Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(_win->getWidth()), posy/float(_win->getHeight()));
+  Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(win->getWidth()), posy/float(win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
 
@@ -341,13 +343,13 @@ void PlayState::showResultingBalls() {
   for (int i=0; i<ROW_SIZE; i++) {
     std::stringstream name;
     name << "BallNode_" << i << "_BLACK";
-    ent_ball = _sceneManager->getEntity(name.str());
+    ent_ball = _sceneMgr->getEntity(name.str());
     if (ent_ball != NULL) ent_ball->getSubEntity(0)->setMaterialName(_game->getResult()->getBallAt(i));
   }
 }
 
 void PlayState::highlightCurrentRow(){
-  Ogre::Entity* ent_mastermind = _sceneManager->getEntity("Mastermind");
+  Ogre::Entity* ent_mastermind = _sceneMgr->getEntity("Mastermind");
   std::stringstream row_name, row_prev_name;
   row_name << "Row_" << _game->getCurrentRow();
   row_prev_name << "Row_" << _game->getCurrentRow()-1;

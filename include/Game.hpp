@@ -37,8 +37,10 @@ public:
   Game();
   ~Game ();
   int getState ();
-  void setPlayerName(std::string);
+  void setPlayerName(std::string name);
+  std::string getPlayerName();
   void setState (int state);
+  int getPoints();
   void addBall(int row, int column, std::string color);
   void generateRandomResult();
   bool currentRowFull();

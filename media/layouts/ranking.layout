@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/FrameWindow" name="Cfg" >
+        <Property name="Area" value="{{0,34},{0,0},{0.0492188,391},{0.0686667,416}}" />
+        <Property name="Font" value="Jura-13" />
+        <Property name="Text" value="[colour=&apos;FFFFFF00&apos;]Ranking" />
+        <Property name="TitlebarFont" value="Jura-18" />
+        <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+        <Property name="DragMovingEnabled" value="false" />
+        <Property name="VerticalAlignment" value="Centre" />
+        <Property name="CloseButtonEnabled" value="false" />
+        <Property name="HorizontalAlignment" value="Centre" />
+        <AutoWindow namePath="__auto_titlebar__" >
+            <Property name="DraggingEnabled" value="false" />
+        </AutoWindow>
+        <Window type="Vanilla/Label" name="RankText1" >
+            <Property name="Area" value="{{0,11},{0,12},{0.2,11},{0.166,12}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="[colour=&apos;FFFFFF00&apos;] Posición" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="NameText1" >
+            <Property name="Area" value="{{0,76},{0,13},{0.45,76},{0.166,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="[colour=&apos;FFFFFF00&apos;] Nombre" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="1Text" >
+            <Property name="Area" value="{{0,12},{0,12},{0.2,12},{0.4,12}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="1" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="2Text" >
+            <Property name="Area" value="{{0,11},{0.2,5},{0.2,11},{0.5,5}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="2" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="3Text" >
+            <Property name="Area" value="{{0,11},{0.2,5},{0.2,11},{0.8,5}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="3" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="4Text" >
+            <Property name="Area" value="{{0,11},{0.5,5},{0.2,11},{0.8,5}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="4" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="5Text" >
+            <Property name="Area" value="{{0,11},{0.7,5},{0.2,11},{0.9,5}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="5" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Name1Text" >
+            <Property name="Area" value="{{0,76},{0,13},{0.45,76},{0.4,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Name" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Name2Text" >
+            <Property name="Area" value="{{0,76},{0.2,13},{0.45,76},{0.5,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Name" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Name3Text" >
+            <Property name="Area" value="{{0,76},{0.2,13},{0.45,76},{0.8,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Name" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Name4Text" >
+            <Property name="Area" value="{{0,76},{0.5,13},{0.45,76},{0.8,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Name" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Name5Text" >
+            <Property name="Area" value="{{0,76},{0.7,13},{0.45,76},{0.9,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Name" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Score1Text" >
+            <Property name="Area" value="{{0,178},{0,13},{0.7,178},{0.4,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Score" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Score2Text" >
+            <Property name="Area" value="{{0,178},{0.2,13},{0.7,178},{0.5,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Score" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Score3Text" >
+            <Property name="Area" value="{{0,178},{0.2,13},{0.7,178},{0.8,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Score" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Score4Text" >
+            <Property name="Area" value="{{0,178},{0.5,13},{0.7,178},{0.8,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Score" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Button" name="BackButton" >
+            <Property name="Area" value="{{0,0},{-0.00865801,0},{0,96},{-0.00865801,32}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Volver" />
+            <Property name="VerticalAlignment" value="Bottom" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+        <Window type="Vanilla/Label" name="ScoreText1" >
+            <Property name="Area" value="{{0,178},{0,13},{0.725,178},{0.166,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="[colour=&apos;FFFFFF00&apos;] Puntos" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+        <Window type="Vanilla/Label" name="Score5Text" >
+            <Property name="Area" value="{{0,178},{0.7,13},{0.7,178},{0.9,13}}" />
+            <Property name="Font" value="Jura-13" />
+            <Property name="Text" value="Score" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+        </Window>
+    </Window>
+</GUILayout>

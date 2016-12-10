@@ -30,6 +30,8 @@ public:
   static GameManager& getSingleton ();
   static GameManager* getSingletonPtr ();
 
+  Ogre::RenderWindow* getRenderWindow();
+
 protected:
   Ogre::Root* _root;
   Ogre::SceneManager* _sceneManager;

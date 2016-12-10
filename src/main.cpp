@@ -10,11 +10,9 @@
 #include "RankingState.hpp"
 #include "GameOverState.hpp"
 
-using namespace std;
-
 int main() {
 
-  new GameManager();
+  GameManager* game = new GameManager();
   new MainState();
   new IntroState();
   new NewGameState();
