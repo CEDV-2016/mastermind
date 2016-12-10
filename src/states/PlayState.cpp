@@ -19,6 +19,7 @@ PlayState::enter ()
 {
   _root = Ogre::Root::getSingletonPtr();
   _rankingManager = new RankingManager();
+  if (_game != NULL) _game->restart();
 
   // Se recupera el gestor de escena y la cámara.
   _sceneMgr = _root->getSceneManager("SceneManager");
@@ -67,7 +68,7 @@ PlayState::frameEnded
   switch(_game->getState())
   {
 
-    /**
+    /*
     * Este estado se ejecuta cuando aun no hemos seleccionado ningun color de las
     * cajas de bolas. Al hacer click en una caja creamos una bola de ese color.
     */
@@ -155,7 +156,7 @@ PlayState::frameEnded
           std::istringstream(col) >> int_col;
 
           if (_game->getCurrentRow() == int_row) {
-            std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
+            // std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
 
             /* Si ya había una bola en esa posición la borramos */
             std::string ball_entity = _game->getBallEntityNameAt(int_col, int_row);
@@ -238,7 +239,7 @@ PlayState::keyReleased
 {
   if (e.key == OIS::KC_ESCAPE) _exitGame = true;
   if (e.key == OIS::KC_P) pushState(PauseState::getSingletonPtr());
-  if (e.key == OIS::KC_O) std::cout << _game->toString() << std::endl;
+  if (e.key == OIS::KC_R) std::cout << _game->getResult()->toString() << std::endl;
 }
 
 void

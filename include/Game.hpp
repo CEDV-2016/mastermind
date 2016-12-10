@@ -54,4 +54,5 @@ public:
   Row* getResult();
   std::string getBallEntityNameAt(int col, int row);
   void addBallEntityNameAt(int col, int row, std::string name);
+  void restart();
 };

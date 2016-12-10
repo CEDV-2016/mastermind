@@ -113,3 +113,8 @@ std::string Game::getBallEntityNameAt(int col, int row) {
 void Game::addBallEntityNameAt(int col, int row, std::string name) {
   _balls_entity[row]->addBall(col, name);
 }
+
+void Game::restart() {
+  _state = SELECTING;
+  _points = 6000;
+}
