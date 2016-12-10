@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mesh>
     <sharedgeometry vertexcount="4">
-        <vertexbuffer texture_coords="1" colours_diffuse="False" positions="true" normals="true">
+        <vertexbuffer colours_diffuse="False" texture_coords="1" normals="true" positions="true">
             <vertex>
-                <position x="-4.000000" y="0.000000" z="4.000000"/>
-                <normal x="0.000000" y="1.000000" z="-0.000000"/>
-                <texcoord v="0.987375" u="0.012624"/>
+                <position y="0.000000" x="-12.000000" z="12.000000"/>
+                <normal y="1.000000" x="0.000000" z="-0.000000"/>
+                <texcoord u="-1.057960" v="2.057960"/>
             </vertex>
             <vertex>
-                <position x="4.000000" y="0.000000" z="4.000000"/>
-                <normal x="0.000000" y="1.000000" z="-0.000000"/>
-                <texcoord v="0.987375" u="0.987927"/>
+                <position y="0.000000" x="12.000000" z="12.000000"/>
+                <normal y="1.000000" x="0.000000" z="-0.000000"/>
+                <texcoord u="2.058512" v="2.057960"/>
             </vertex>
             <vertex>
-                <position x="4.000000" y="0.000000" z="-4.000000"/>
-                <normal x="0.000000" y="1.000000" z="-0.000000"/>
-                <texcoord v="0.012073" u="0.987927"/>
+                <position y="0.000000" x="12.000000" z="-12.000000"/>
+                <normal y="1.000000" x="0.000000" z="-0.000000"/>
+                <texcoord u="2.058512" v="-1.058512"/>
             </vertex>
             <vertex>
-                <position x="-4.000000" y="0.000000" z="-4.000000"/>
-                <normal x="0.000000" y="1.000000" z="-0.000000"/>
-                <texcoord v="0.012073" u="0.012624"/>
+                <position y="0.000000" x="-12.000000" z="-12.000000"/>
+                <normal y="1.000000" x="0.000000" z="-0.000000"/>
+                <texcoord u="-1.057960" v="-1.058512"/>
             </vertex>
         </vertexbuffer>
     </sharedgeometry>
     <submeshes>
-        <submesh usesharedvertices="true" material="Material.004" use32bitindexes="False" operationtype="triangle_list">
+        <submesh operationtype="triangle_list" use32bitindexes="False" usesharedvertices="true" material="Ground">
             <faces count="2">
-                <face v2="1" v1="0" v3="2"/>
-                <face v2="2" v1="0" v3="3"/>
+                <face v2="1" v3="2" v1="0"/>
+                <face v2="2" v3="3" v1="0"/>
             </faces>
         </submesh>
     </submeshes>
     <submeshnames>
-        <submesh name="Material.004" index="0">
+        <submesh index="0" name="Ground">
         </submesh>
     </submeshnames>
 </mesh>

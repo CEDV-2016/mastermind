@@ -1,7 +1,8 @@
-#include "GameManager.hpp"
 #include "PlayState.hpp"
 #include "PauseState.hpp"
+#include "GameManager.hpp"
 #include "BallsFactory.hpp"
+#include "GameOverState.hpp"
 
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
 
@@ -17,11 +18,13 @@ void
 PlayState::enter ()
 {
   _root = Ogre::Root::getSingletonPtr();
+  _rankingManager = new RankingManager();
 
   // Se recupera el gestor de escena y la cámara.
   _sceneMgr = _root->getSceneManager("SceneManager");
   _camera = _sceneMgr->getCamera("MainCamera");
   _ballsFactory = new BallsFactory(_sceneMgr);
+  _raySceneQuery = _sceneMgr->createRayQuery(Ogre::Ray());
   createScene();
   createGUI();
 
@@ -60,6 +63,7 @@ bool
 PlayState::frameEnded
 (const Ogre::FrameEvent& evt)
 {
+
   switch(_game->getState())
   {
 
@@ -69,10 +73,6 @@ PlayState::frameEnded
     */
     case SELECTING:
     {
-      /*
-      * Molaría hacer que al pasar el ratón por encima de un slew el color se
-      * vuleva blanquecino.
-      */
       if (_left_click) {
         _selectedNode = NULL;
 
@@ -157,12 +157,10 @@ PlayState::frameEnded
           if (_game->getCurrentRow() == int_row) {
             std::cout << "Bola " << color << " en la fila = " << int_row << " columna = " << int_col << std::endl;
 
-            /*
-            * Si ya había una bola en esa posición la borramos
-            */
-            std::string ball_entity = _game->getBallEntityNameAt(int_row, int_col);
+            /* Si ya había una bola en esa posición la borramos */
+            std::string ball_entity = _game->getBallEntityNameAt(int_col, int_row);
             if (ball_entity != "-1") _sceneMgr->destroyEntity(ball_entity);
-            _game->addBallEntityNameAt(int_row, int_col, _current_ball->getName());
+            _game->addBallEntityNameAt(int_col, int_row, _current_ball->getName());
 
             _game->addBall(int_row, int_col, color);
             _current_ball->setPosition(_selectedNode->getPosition());
@@ -201,11 +199,11 @@ PlayState::frameEnded
           }
           else /* KEEP PLAYING */
           {
-            _game->addCurrentRow();
-
             std::cout << "Mala linea!" << "\n";
 
+            _game->addCurrentRow();
             highlightCurrentRow();
+            _pointsView->setText(std::to_string(_game->getPoints()));
 
             _game->setState(SELECTING);
           }
@@ -215,7 +213,9 @@ PlayState::frameEnded
 
     case GAME_OVER:
     {
-      //CAMBIAR AL ESTADO GAMEOVERSTATE
+      int turn = _game->getCurrentRow(); //6 - _game->getPoints()/1000;
+      _rankingManager->setRanking(_game->getPlayerName(), turn);
+      changeState(GameOverState::getSingletonPtr());
     }
     break;
   } //switch
@@ -306,6 +306,13 @@ void PlayState::createScene() {
     black_ball_node->setPosition(-1.62 + (double)col/3.3, 1.1, -1.15);
   }
 
+  /* Highlight first row */
+  Ogre::Entity* ent_mastermind = _sceneMgr->getEntity("Mastermind");
+  for (unsigned int i=0; i<ent_mastermind->getNumSubEntities(); i++) {
+    Ogre::SubEntity *aux = ent_mastermind->getSubEntity(i);
+    if (aux->getMaterialName() == "Row_0")
+    aux->setMaterialName("Material.semitransparent");
+  }
 }
 
 void PlayState::createGUI()
@@ -332,9 +339,7 @@ Ogre::Ray PlayState::setRayQuery(int posx, int posy, Ogre::uint32 mask) {
   Ogre::Ray rayMouse = _camera->getCameraToViewportRay (posx/float(win->getWidth()), posy/float(win->getHeight()));
   _raySceneQuery->setRay(rayMouse);
   _raySceneQuery->setSortByDistance(true);
-
   _raySceneQuery->setQueryMask(mask == (Ogre::uint32)-1 ? all_masks : mask);
-
   return rayMouse;
 }
 

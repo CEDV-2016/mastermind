@@ -33,8 +33,6 @@ int Game::getState() {
 
 void Game::setState (int state) {
   _state = state;
-
-  if (state == GAME_OVER) saveRankings();
 }
 
 int Game::getPoints() {
@@ -94,7 +92,7 @@ void Game::addCurrentRow() {
 std::string Game::toString(){
   std::stringstream stream;
   std::string msg;
-  stream << "----GAME TO STRING----" << "\n";
+  stream << "----GAME OF " << _player <<"----" << "\n";
   stream << "Res = " << _result->toString() << "\n";
 
   for (int i = NUM_ROWS-1; i >= 0; i--) {
@@ -115,12 +113,3 @@ std::string Game::getBallEntityNameAt(int col, int row) {
 void Game::addBallEntityNameAt(int col, int row, std::string name) {
   _balls_entity[row]->addBall(col, name);
 }
-
-void Game::saveRankings() {
-  std::ofstream outfile;
-
-  outfile.open("media/rankings.csv", std::ios::app);
-  outfile << _player << ";" << _points << "\n";
-}
-
-void Game::readRankings() {}

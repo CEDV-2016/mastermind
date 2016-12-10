@@ -9,7 +9,6 @@ RankingState::RankingState() {
   _rankingManager = new RankingManager;
 }
 
-
 void
 RankingState::enter ()
 {

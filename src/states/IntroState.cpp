@@ -105,31 +105,38 @@ IntroState::getSingleton ()
 }
 
 void IntroState::createScene() {
-  //Mastermind
-  Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind.mesh");
+  /* Mastermind */
+  Ogre::Entity* ent_mastermind = _sceneManager->createEntity("Mastermind", "Mastermind.mesh");
+  ent_mastermind->setQueryFlags(BOARD);
   Ogre::SceneNode* node_mastermind = _sceneManager->createSceneNode("Mastermind");
   node_mastermind->attachObject(ent_mastermind);
   node_mastermind->translate(-1, 0, 0);
   _sceneManager->getRootSceneNode()->addChild(node_mastermind);
 
-  //Suelo
-  Ogre::Plane plane1(Ogre::Vector3::UNIT_Y, 0);
-  Ogre::MeshManager::getSingleton().createPlane("plane1",
-  Ogre::ResourceGroupManager::DEFAULT_RESOURCE_GROUP_NAME, plane1,
-  200, 200, 1, 1, true, 1, 20, 20, Ogre::Vector3::UNIT_Z);
+  /* Button */
+  Ogre::Entity* ent_button = _sceneManager->createEntity("Button.mesh");
+  ent_button->setQueryFlags(BUTTON);
+  Ogre::SceneNode* node_button = _sceneManager->createSceneNode("Button");
+  node_button->attachObject(ent_button);
+  node_button->translate(-0.292, 1.086, -1.179);
+  _sceneManager->getRootSceneNode()->addChild(node_button);
 
-  Ogre::SceneNode* node2 = _sceneManager->createSceneNode("table");
-  Ogre::Entity* tableEnt = _sceneManager->createEntity("planeEnt", "plane1");
-  tableEnt->setMaterialName("Table");
-  node2->attachObject(tableEnt);
+  /* Ground */
+  Ogre::Entity* ent_ground = _sceneManager->createEntity("Ground.mesh");
+  ent_ground->setQueryFlags(GROUND);
+  Ogre::SceneNode* node_ground = _sceneManager->createSceneNode("Ground");
+  node_ground->attachObject(ent_ground);
+  _sceneManager->getRootSceneNode()->addChild(node_ground);
 
+
+  /* Light */
   _sceneManager->setShadowTechnique(Ogre::SHADOWTYPE_STENCIL_ADDITIVE);
   Ogre::Light* light = _sceneManager->createLight("Light1");
   light->setType(Ogre::Light::LT_DIRECTIONAL);
   light->setDirection(Ogre::Vector3(1, -1, 0));
-  node2->attachObject(light);
-
-  _sceneManager->getRootSceneNode()->addChild(node2);
+  Ogre::SceneNode* node_light = _sceneManager->createSceneNode("LightNode");
+  node_light->attachObject(light);
+  _sceneManager->getRootSceneNode()->addChild(node_light);
 }
 
 void IntroState::createGUI()

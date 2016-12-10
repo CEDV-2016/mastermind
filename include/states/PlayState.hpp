@@ -10,6 +10,7 @@
 #include "Flags.hpp"
 #include "GameState.hpp"
 #include "BallsFactory.hpp"
+#include "RankingManager.hpp"
 
 class PlayState : public Ogre::Singleton<PlayState>, public GameState
 {
@@ -55,6 +56,7 @@ protected:
   BallsFactory *_ballsFactory;
   Game * _game;
   Ogre::SceneNode* _current_ball;
+  RankingManager* _rankingManager;
 
   bool _exitGame, _left_click;
   int _mouse_x, _mouse_y;
