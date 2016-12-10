@@ -1,12 +1,12 @@
-// Material.003 genrated by blender2ogre 0.6.0
+// Box genrated by blender2ogre 0.6.0
 
-material Material.003 
+material Box 
 {
     receive_shadows on 
 
     technique
     {
-        pass Material.003
+        pass Box
         {
             ambient 0.7969138026237488 0.8000000715255737 0.7470895051956177 1.0
             diffuse 0.5578396523366713 0.5600000405311576 0.5229626447309315 1.0
@@ -32,7 +32,7 @@ material Material.003
 
             texture_unit 
             {
-                texture wood.jpg
+                texture wood2.jpg
                 tex_address_mode wrap
                 scale 1.0 1.0
                 colour_op modulate

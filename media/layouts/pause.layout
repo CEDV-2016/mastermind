@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/FrameWindow" name="Pause" >
+        <Property name="Area" value="{{0,0},{0,0},{0.4,116},{0.558333,-155}}" />
+        <Property name="SizingEnabled" value="false" />
+        <Property name="TitlebarEnabled" value="false" />
+        <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+        <Property name="DragMovingEnabled" value="false" />
+        <Property name="VerticalAlignment" value="Centre" />
+        <Property name="CloseButtonEnabled" value="false" />
+        <Property name="HorizontalAlignment" value="Centre" />
+        <AutoWindow namePath="__auto_titlebar__" >
+            <Property name="DraggingEnabled" value="false" />
+        </AutoWindow>
+        <Window type="Vanilla/Button" name="ResumeButton" >
+            <Property name="Area" value="{{0,-1},{-0.268011,5},{0.00106377,299},{-0.268011,56}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Reanudar" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+        <Window type="Vanilla/Button" name="ExitPauseButton" >
+            <Property name="Area" value="{{0,-1},{0.268011,-5},{-0.00106377,299},{0.268011,45}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Volver al menú" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+    </Window>
+</GUILayout>

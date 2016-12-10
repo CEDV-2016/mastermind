@@ -1,0 +1,86 @@
+<scene formatVersion="1.0.1" exported_by="pedroma" export_time="1481066082.4216633" previous_export_time="1481050006.6153445" >
+  <nodes >
+    <node name="Camera" >
+      <position y="6.000000" z="2.000000" x="0.000000" />
+      <rotation qw="0.987088" qz="-0.000000" qy="0.000000" qx="0.160182" />
+      <scale y="1.000000" z="1.000000" x="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <camera fov="0.6605947096585073" name="Camera" projectionType="perspective" >
+        <clipping farPlaneDist="100.0" near="0.10000000149011612" nearPlaneDist="0.10000000149011612" far="100.0" />
+      </camera>
+    </node>
+    <node name="Masermind" >
+      <position y="0.000000" z="-0.000000" x="-1.000000" />
+      <rotation qw="1.000000" qz="-0.000000" qy="0.000000" qx="0.000000" />
+      <scale y="1.000000" z="1.000000" x="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <entity mass_radius="1.0" damping_trans="0.02539999969303608" lock_trans_y="False" name="Mastermind" physics_type="STATIC" velocity_max="0.0" meshFile="Mastermind.mesh" lock_trans_z="False" anisotropic_friction="False" actor="False" lock_rot_z="False" friction_x="1.0" lock_rot_x="False" lock_trans_x="False" inertia_tensor="0.4000000059604645" damping_rot="0.1589999943971634" mass="1.0" friction_z="1.0" ghost="False" lock_rot_y="False" friction_y="1.0" velocity_min="0.0" />
+    </node>
+    <node name="Lamp" >
+      <position y="7.000000" z="-4.000000" x="0.000000" />
+      <rotation qw="0.570947" qz="-0.272171" qy="0.755880" qx="0.169076" />
+      <scale y="1.000000" z="1.000000" x="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <light type="point" shadow="true" powerScale="1.0" name="Lamp" >
+        <position y="7.000000" z="-4.000000" x="0.000000" />
+        <lightAttenuation range="5000" constant="1.0" linear="0.03333335240683057" quadratic="0.0" />
+        <colourDiffuse r="1.0" b="1.0" g="1.0" />
+        <colourSpecular r="1.0" b="1.0" g="1.0" />
+        <colourShadow r="1.0" b="1.0" g="1.0" />
+      </light>
+    </node>
+    <node name="Lamp.001" >
+      <position y="4.932723" z="2.138767" x="0.038789" />
+      <rotation qw="0.570947" qz="-0.272171" qy="0.755880" qx="0.169076" />
+      <scale y="1.000000" z="1.000000" x="1.000000" />
+      <game >
+        <sensors />
+        <actuators />
+      </game>
+      <light type="point" shadow="true" powerScale="1.0" name="Lamp.001" >
+        <position y="4.932723" z="2.138767" x="0.038789" />
+        <lightAttenuation range="5000" constant="1.0" linear="0.03333335240683057" quadratic="0.0" />
+        <colourDiffuse r="1.0" b="1.0" g="1.0" />
+        <colourSpecular r="1.0" b="1.0" g="1.0" />
+        <colourShadow r="1.0" b="1.0" g="1.0" />
+      </light>
+    </node>
+  </nodes>
+  <externals >
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Mastermind.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Row_0.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Row_1.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Row_2.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Row_3.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Row_4.material" />
+    </item>
+    <item type="material" >
+      <file name="/home/pedroma/CEDV/Mastermind/media/mastermind/Row_5.material" />
+    </item>
+  </externals>
+  <environment >
+    <colourBackground r="0.05087608844041824" b="0.05087608844041824" g="0.05087608844041824" />
+    <colourDiffuse r="0.05087608844041824" b="0.05087608844041824" g="0.05087608844041824" />
+    <colourAmbient r="0.0" b="0.0" g="0.0" />
+  </environment>
+</scene>

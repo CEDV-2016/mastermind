@@ -1,18 +1,22 @@
 #pragma once
 
 #include <Ogre.h>
-#include "Colors.hpp"
+
+#include "Flags.hpp"
 
 class BallsFactory
 {
 private:
   Ogre::SceneManager* _sceneManager;
-  std::string colorToString(int color);
-  Ogre::ColourValue colorToOgreColor(int color);
-  Ogre::MaterialPtr createMaterial(int color);
+  int _ball_counter, _black_ball_counter;
+  Ogre::MaterialPtr createMaterial(std::string color);
+  Ogre::ColourValue colorToOgreColor(std::string color);
+  const std::string _all_colors[7] {"RED", "BLUE", "GREEN", "PINK", "YELLOW", "WHITE", "BLACK"};
 
 public:
   BallsFactory(Ogre::SceneManager* sm);
   ~BallsFactory();
-  void createBoxAndBallSlew(int color, int x, int z, int y);
+  void createBoxAndBallSlew(std::string color, int x, int z, int y);
+  Ogre::SceneNode* createBall(std::string color);
+  void createCheckingBalls(int row, int reds, int whites);
 };

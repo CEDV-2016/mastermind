@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<GUILayout version="4" >
+    <Window type="Vanilla/FrameWindow" name="GameOver" >
+        <Property name="Area" value="{{0,0},{0,18},{0.203906,300},{0.166666,146}}" />
+        <Property name="Text" value="[colour=&apos;FFFFFF00&apos;]Fin del juego" />
+        <Property name="TitlebarFont" value="Jura-18" />
+        <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+        <Property name="DragMovingEnabled" value="false" />
+        <Property name="VerticalAlignment" value="Centre" />
+        <Property name="CloseButtonEnabled" value="false" />
+        <Property name="HorizontalAlignment" value="Centre" />
+        <AutoWindow namePath="__auto_titlebar__" >
+            <Property name="DraggingEnabled" value="false" />
+        </AutoWindow>
+        <Window type="Vanilla/Label" name="PointsFinal" >
+            <Property name="Area" value="{{0.098155,-6},{0.4625,-52},{0.498155,194},{0.7625,-52}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Puntos" />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+        </Window>
+        <Window type="Vanilla/Label" name="NameFinal" >
+            <Property name="Area" value="{{0.1,-7},{0.155556,-35},{0.5,193},{0.555556,-35}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Jota " />
+            <Property name="MaxSize" value="{{1,0},{1,0}}" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+        </Window>
+        <Window type="Vanilla/Button" name="RestartButton" >
+            <Property name="Area" value="{{0.00106377,68.1958},{-0.268011,106.491},{0.00106377,182.892},{-0.268011,156.491}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Reiniciar" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+        <Window type="Vanilla/Button" name="FinishButton" >
+            <Property name="Area" value="{{-0.00106377,-64.6958},{0.268011,1.50879},{-0.00106377,50.9149},{0.268011,51.5088}}" />
+            <Property name="Font" value="Jura-18" />
+            <Property name="Text" value="Salir" />
+            <Property name="MouseCursorImage" value="Vanilla-Images/MouseArrow" />
+            <Property name="VerticalAlignment" value="Centre" />
+            <Property name="HorizontalAlignment" value="Centre" />
+        </Window>
+    </Window>
+</GUILayout>

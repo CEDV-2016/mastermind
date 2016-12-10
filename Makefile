@@ -1,23 +1,23 @@
-# --------------------------------------------------------------------
-# Makefile Genérico :: Módulo 2. Curso Experto Desarrollo Videojuegos
-# Carlos González Morcillo     Escuela Superior de Informática (UCLM)
-# --------------------------------------------------------------------
 EXEC := Mastermind
 
 DIRSRC := src/
 DIROBJ := obj/
 DIRHEA := include/
+DIRSRC_STATES := $(DIRSRC)states/
+DIRHEA_STATES := $(DIRHEA)states/
+DIRSRC_MANAGERS := $(DIRSRC)managers/
+DIRHEA_MANAGERS := $(DIRHEA)managers/
 
 CXX := g++
 
-# Flags de compilación -----------------------------------------------
-CXXFLAGS := -I $(DIRHEA) -Wall -I/usr/local/include/cegui-0/CEGUI -I/usr/local/include/cegui-0 `pkg-config --cflags OGRE OGRE-Overlay` `pkg-config --cflags OIS`
+# Compiling flags --------------------------------------------------------------
+CXXFLAGS := -I$(DIRHEA) -I$(DIRHEA_STATES) -I$(DIRHEA_MANAGERS) -Wall -I/usr/local/include/cegui-0/CEGUI -I/usr/local/include/cegui-0 `pkg-config --cflags OGRE OGRE-Overlay` -std=c++11 `pkg-config --cflags OIS`
 
 # Flags del linker ---------------------------------------------------
 LDFLAGS := `pkg-config --libs-only-L OGRE` -lOIS -lGL -lstdc++ -lboost_system  -lCEGUIBase-0 -lCEGUIOgreRenderer-0
 LDLIBS := `pkg-config --libs-only-l OGRE OGRE-Overlay` -lboost_system -lOIS -lGL -lstdc++ -lCEGUIBase-0 -lCEGUIOgreRenderer-0
 
-# Modo de compilación (-mode=release -mode=debug) --------------------
+# Compiling mode (-mode=release -mode=debug) -----------------------------------
 ifeq ($(mode), release)
 	CXXFLAGS += -O2 -D_RELEASE
 else
@@ -25,34 +25,49 @@ else
 	mode := debug
 endif
 
-# Obtención automática de la lista de objetos a compilar -------------
 OBJS := $(subst $(DIRSRC), $(DIROBJ), $(patsubst %.cpp, %.o, $(wildcard $(DIRSRC)*.cpp)))
+OBJS += $(subst $(DIRSRC_STATES), $(DIROBJ), $(patsubst %.cpp, %.o, $(wildcard $(DIRSRC_STATES)*.cpp)))
+OBJS += $(subst $(DIRSRC_MANAGERS), $(DIROBJ), $(patsubst %.cpp, %.o, $(wildcard $(DIRSRC_MANAGERS)*.cpp)))
 
 .PHONY: all clean
 
-all: $(EXEC)
+all: dir $(EXEC)
 	./$(EXEC)
 
 info:
 	@echo '------------------------------------------------------'
 	@echo '>>> Using mode $(mode)'
-	@echo '    (Please, call "make" with [mode=debug|release])  '
+	@echo '    (Call "make" with [mode=debug|release])  '
 	@echo '------------------------------------------------------'
 
-# Enlazado -----------------------------------------------------------
+# Linking ----------------------------------------------------------------------
 $(EXEC): $(OBJS)
+	@echo "Linking $@..."
 	$(CXX) $(LDFLAGS) -o $@ $^ $(LDLIBS)
 
-# Compilación --------------------------------------------------------
+# Compiling --------------------------------------------------------------------
 $(DIROBJ)%.o: $(DIRSRC)%.cpp
-	$(CXX) $(CXXFLAGS) -c $< -o $@ $(LDLIBS)
+	@echo "Compiling $<..."
+	@$(CXX) $(CXXFLAGS) -c $< -o $@ $(LDLIBS)
 
-# Limpieza de temporales ---------------------------------------------
+# States
+$(DIROBJ)%.o: $(DIRSRC_STATES)%.cpp
+	@echo "Compiling $<..."
+	@$(CXX) $(CXXFLAGS) -c $< -o $@ $(LDLIBS)
+
+# Managers
+$(DIROBJ)%.o: $(DIRSRC_MANAGERS)%.cpp
+	@echo "Compiling $<..."
+	@$(CXX) $(CXXFLAGS) -c $< -o $@ $(LDLIBS)
+
+# Temporals cleaning -----------------------------------------------------------
 clean:
-	$(RM) *.log $(EXEC) *~ $(DIROBJ)* $(DIRSRC)*~ $(DIRHEA)*~
+	$(RM) -r *.log $(EXEC) *~ $(DIROBJ) $(DIRSRC)*~ $(DIRHEA)*~
+	@find . -name 'mastermind.scene' -exec rm -vf {} \;
+
 
 dir:
-	mkdir obj/
+	@mkdir -p obj/
 
 edit:
 	atom .
