@@ -7,13 +7,8 @@
 #include <OIS/OIS.h>
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_mixer.h>
 
 #include "GameState.hpp"
-#include "Track.hpp"
-#include "TrackManager.hpp"
-
 
 class IntroState : public Ogre::Singleton<IntroState>, public GameState
 {
@@ -46,7 +41,6 @@ public:
   bool navigateToCredits(const CEGUI::EventArgs &e);
   bool navigateToRanking(const CEGUI::EventArgs &e);
   bool quit(const CEGUI::EventArgs &e);
-  bool initSDL();
 
 protected:
   Ogre::Root* _root;
@@ -60,8 +54,6 @@ protected:
   OIS::Keyboard* _keyboard;
   OIS::Mouse* _mouse;
   CEGUI::Window* _intro;
-  TrackManager* _trackManager;
-  TrackPtr _mainTrack;
 
   bool _exitGame;
 };

@@ -27,14 +27,18 @@ GameManager::start
 {
   // Creación del objeto Ogre::Root.
   _root = new Ogre::Root();
+  _trackManager = OGRE_NEW TrackManager;
 
   loadResources();
+  initSDL();
 
   if (!configure())
     return;
 
   _inputMgr = new InputManager;
   _inputMgr->initialise(_renderWindow);
+  _mainTrack = _trackManager->load("mousetrap.ogg");
+  _mainTrack->play();
 
   // Registro como key y mouse listener...
   _inputMgr->addKeyListener(this, "GameManager");
@@ -243,5 +247,23 @@ GameManager::mouseReleased
 (const OIS::MouseEvent &e, OIS::MouseButtonID id)
 {
   _states.top()->mouseReleased(e, id);
+  return true;
+}
+
+bool GameManager::initSDL () {
+  if (SDL_Init(SDL_INIT_AUDIO) < 0) {
+    return false;
+  }
+  // Llamar a  SDL_Quit al terminar.
+  atexit(SDL_Quit);
+
+  // Inicializando SDL mixer...
+  if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS, 4096) < 0) {
+    return false;
+  }
+
+  // Llamar a Mix_CloseAudio al terminar.
+  atexit(Mix_CloseAudio);
+
   return true;
 }

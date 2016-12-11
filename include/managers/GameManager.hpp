@@ -6,8 +6,12 @@
 #include <OIS/OIS.h>
 #include <CEGUI.h>
 #include <RendererModules/Ogre/Renderer.h>
+#include <SDL2/SDL.h>
+#include <SDL2/SDL_mixer.h>
 
 #include "InputManager.hpp"
+#include "Track.hpp"
+#include "TrackManager.hpp"
 
 class GameState;
 
@@ -36,6 +40,8 @@ protected:
   Ogre::Root* _root;
   Ogre::SceneManager* _sceneManager;
   Ogre::RenderWindow* _renderWindow;
+  TrackManager* _trackManager;
+  TrackPtr _mainTrack;
 
   // Funciones de configuración.
   void loadResources ();
@@ -44,6 +50,8 @@ protected:
   // Heredados de FrameListener.
   bool frameStarted (const Ogre::FrameEvent& evt);
   bool frameEnded (const Ogre::FrameEvent& evt);
+
+  bool initSDL();
 
 private:
   // Funciones para delegar eventos de teclado

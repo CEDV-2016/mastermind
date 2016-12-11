@@ -14,14 +14,9 @@ IntroState::enter ()
   _sceneManager = _root->getSceneManager("SceneManager");
   _camera = _sceneManager->getCamera("MainCamera");
   _viewport = _root->getAutoCreatedWindow()->addViewport(_camera);
-  _trackManager = OGRE_NEW TrackManager;
-
-  initSDL();
   createScene();
   createGUI();
 
-  _mainTrack = _trackManager->load("mousetrap.ogg");
-  _mainTrack->play();
   _exitGame = false;
 }
 
@@ -171,24 +166,6 @@ void IntroState::createGUI()
   } else{
     _intro->show();
   }
-}
-
-bool IntroState::initSDL () {
-  if (SDL_Init(SDL_INIT_AUDIO) < 0) {
-    return false;
-  }
-  // Llamar a  SDL_Quit al terminar.
-  atexit(SDL_Quit);
-
-  // Inicializando SDL mixer...
-  if (Mix_OpenAudio(MIX_DEFAULT_FREQUENCY, MIX_DEFAULT_FORMAT,MIX_DEFAULT_CHANNELS, 4096) < 0) {
-    return false;
-  }
-
-  // Llamar a Mix_CloseAudio al terminar.
-  atexit(Mix_CloseAudio);
-
-  return true;
 }
 
 bool IntroState::newGame(const CEGUI::EventArgs &e)
