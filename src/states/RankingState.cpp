@@ -1,6 +1,7 @@
 #include <sstream>
 
 #include "RankingState.hpp"
+#include "SoundFXManager.hpp"
 
 template<> RankingState* Ogre::Singleton<RankingState>::msSingleton = 0;
 
@@ -17,6 +18,7 @@ RankingState::enter ()
   // Se recupera el gestor de escena y la cámara.
   _sceneMgr = _root->getSceneManager("SceneManager");
   _camera = _sceneMgr->getCamera("MainCamera");
+  SoundFXManager::getSingletonPtr()->load("paper.wav")->play();
   _viewport = _root->getAutoCreatedWindow()->getViewport(0);
   Ogre::Real tSpeed = 20.0;
   Ogre::Real deltaT = 0.1;

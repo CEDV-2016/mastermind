@@ -3,6 +3,8 @@
 #include "GameManager.hpp"
 #include "BallsFactory.hpp"
 #include "GameOverState.hpp"
+#include "SoundFX.hpp"
+#include "SoundFXManager.hpp"
 
 template<> PlayState* Ogre::Singleton<PlayState>::msSingleton = 0;
 
@@ -97,6 +99,7 @@ PlayState::frameEnded
 
               _current_ball = _ballsFactory->createBall(color);
 
+              SoundFXManager::getSingletonPtr()->load("bubble.wav")->play();
               _game->setState(MOVING);
             } break;
 
@@ -166,6 +169,9 @@ PlayState::frameEnded
             _game->addBall(int_row, int_col, color);
             _current_ball->setPosition(_selectedNode->getPosition());
             _game->setState(SELECTING);
+
+            SoundFXManager::getSingletonPtr()->load("drop.wav")->play();
+
           }
         }
       }
@@ -185,9 +191,9 @@ PlayState::frameEnded
 
         if (result.reds == 4) /* WIN */
         {
-          std::cout << "Has ganado!\n";
           showResultingBalls();
           _game->setState(GAME_OVER);
+          SoundFXManager::getSingletonPtr()->load("right.wav")->play();
         }
         else
         {
@@ -200,13 +206,12 @@ PlayState::frameEnded
           }
           else /* KEEP PLAYING */
           {
-            std::cout << "Mala linea!" << "\n";
-
             _game->addCurrentRow();
             highlightCurrentRow();
             _pointsView->setText(std::to_string(_game->getPoints()));
 
             _game->setState(SELECTING);
+            SoundFXManager::getSingletonPtr()->load("wrong.wav")->play();
           }
         }
       }

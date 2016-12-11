@@ -12,6 +12,8 @@
 #include "InputManager.hpp"
 #include "Track.hpp"
 #include "TrackManager.hpp"
+#include "SoundFX.hpp"
+#include "SoundFXManager.hpp"
 
 class GameState;
 
@@ -42,6 +44,7 @@ protected:
   Ogre::RenderWindow* _renderWindow;
   TrackManager* _trackManager;
   TrackPtr _mainTrack;
+  SoundFXManager* _pSoundFXManager;
 
   // Funciones de configuración.
   void loadResources ();

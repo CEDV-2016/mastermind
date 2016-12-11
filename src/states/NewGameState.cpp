@@ -1,5 +1,6 @@
 #include "NewGameState.hpp"
 #include "PlayState.hpp"
+#include "SoundFXManager.hpp"
 
 template<> NewGameState* Ogre::Singleton<NewGameState>::msSingleton = 0;
 
@@ -16,6 +17,7 @@ NewGameState::enter ()
   // Se recupera el gestor de escena y la cámara.
   _sceneManager = _root->getSceneManager("SceneManager");
   _camera = _sceneManager->getCamera("MainCamera");
+  SoundFXManager::getSingletonPtr()->load("paper.wav")->play();
   createGUI();
 
   _exitGame = false;

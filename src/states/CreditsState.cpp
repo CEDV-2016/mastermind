@@ -1,4 +1,5 @@
 #include "CreditsState.hpp"
+#include "SoundFXManager.hpp"
 
 template<> CreditsState* Ogre::Singleton<CreditsState>::msSingleton = 0;
 
@@ -22,6 +23,7 @@ CreditsState::enter ()
   vt += Ogre::Vector3(2, 0, 0);
   _camera->moveRelative(vt * deltaT * tSpeed);
   createGUI();
+  SoundFXManager::getSingletonPtr()->load("paper.wav")->play();
 
   _exitGame = false;
 }

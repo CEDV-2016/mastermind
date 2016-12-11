@@ -19,6 +19,9 @@ GameManager::~GameManager ()
 
   if (_root)
     delete _root;
+
+  OGRE_DELETE _trackManager;
+  OGRE_DELETE _pSoundFXManager;
 }
 
 void
@@ -28,6 +31,7 @@ GameManager::start
   // Creación del objeto Ogre::Root.
   _root = new Ogre::Root();
   _trackManager = OGRE_NEW TrackManager;
+  _pSoundFXManager = OGRE_NEW SoundFXManager;
 
   loadResources();
   initSDL();
@@ -153,8 +157,7 @@ GameManager::loadResources ()
     for (i = settings->begin(); i != settings->end(); ++i) {
       typestr = i->first;
       datastr = i->second;
-      Ogre::ResourceGroupManager::getSingleton().addResourceLocation
-            (datastr, typestr, sectionstr);
+      Ogre::ResourceGroupManager::getSingleton().addResourceLocation(datastr, typestr, sectionstr);
     }
   }
 }
