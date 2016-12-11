@@ -15,7 +15,7 @@ CXXFLAGS := -I$(DIRHEA) -I$(DIRHEA_STATES) -I$(DIRHEA_MANAGERS) -Wall -I/usr/loc
 
 # Flags del linker ---------------------------------------------------
 LDFLAGS := `pkg-config --libs-only-L OGRE` -lOIS -lGL -lstdc++ -lboost_system  -lCEGUIBase-0 -lCEGUIOgreRenderer-0
-LDLIBS := `pkg-config --libs-only-l OGRE OGRE-Overlay` -lboost_system -lOIS -lGL -lstdc++ -lCEGUIBase-0 -lCEGUIOgreRenderer-0
+LDLIBS := `pkg-config --libs-only-l OGRE OGRE-Overlay SDL2_mixer` -lboost_system -lOIS -lGL -lstdc++ -lCEGUIBase-0 -lCEGUIOgreRenderer-0
 
 # Compiling mode (-mode=release -mode=debug) -----------------------------------
 ifeq ($(mode), release)
