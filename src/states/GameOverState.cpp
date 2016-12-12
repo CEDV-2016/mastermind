@@ -107,30 +107,17 @@ void GameOverState::createGUI()
     //Config Window
     _gameover = CEGUI::WindowManager::getSingleton().loadLayoutFromFile("gameover.layout");
     CEGUI::System::getSingleton().getDefaultGUIContext().getRootWindow()->addChild(_gameover);
-    CEGUI::Window* restartButton = _gameover->getChild("RestartButton");
-    restartButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-      CEGUI::Event::Subscriber(&GameOverState::restartGame,
-        this));
-        CEGUI::Window* resumeButton = _gameover->getChild("FinishButton");
-        resumeButton->subscribeEvent(CEGUI::PushButton::EventClicked,
-          CEGUI::Event::Subscriber(&GameOverState::finish,
-            this));
-            _nameView = _gameover->getChild("NameFinal");
-            _pointsView = _gameover->getChild("PointsFinal");
-            _nameView->setText(_name);
-            _pointsView->setText(_points);
-          } else{
-            _nameView->setText(_name);
-            _pointsView->setText(_points);
-            _gameover->show();
-          }
-        }
-
-bool GameOverState::restartGame(const CEGUI::EventArgs &e)
-{
-  this->popState();
-  restart(IntroState::getSingletonPtr());
-  return true;
+    CEGUI::Window* resumeButton = _gameover->getChild("FinishButton");
+    resumeButton->subscribeEvent(CEGUI::PushButton::EventClicked, CEGUI::Event::Subscriber(&GameOverState::finish, this));
+    _nameView = _gameover->getChild("NameFinal");
+    _pointsView = _gameover->getChild("PointsFinal");
+    _nameView->setText(_name);
+    _pointsView->setText(_points);
+  } else{
+    _nameView->setText(_name);
+    _pointsView->setText(_points);
+    _gameover->show();
+  }
 }
 
 bool GameOverState::finish(const CEGUI::EventArgs &e)

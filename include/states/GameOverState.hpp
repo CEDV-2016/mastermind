@@ -32,7 +32,6 @@ public:
 
   void createGUI();
 
-  bool restartGame(const CEGUI::EventArgs &e);
   bool finish(const CEGUI::EventArgs &e);
 
   void setPoints(std::string name, std::string points);

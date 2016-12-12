@@ -1,10 +1,10 @@
-Juan
+Pedro
 6000
-Jose
-6000
-Juan
-6000
-Juan
-6000
-Jota
-6000
+Concha
+5000
+Jose Juan
+4000
+Luis
+4000
+Maria
+3000
